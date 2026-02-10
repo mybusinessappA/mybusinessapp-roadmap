@@ -1,29 +1,35 @@
 /* ===== VARIABLES & RESET ===== */
 :root {
-    /* Using your app's color scheme */
-    --primary: rgb(239, 246, 243);
-    --primary-dark: rgb(220, 235, 230);
-    --secondary: rgb(25, 135, 84);
-    /* Added a green color for accents */
-    --secondary-dark: rgb(20, 110, 70);
-    --background: rgb(239, 246, 243);
-    --text: rgb(0, 0, 0);
-    --text-light: rgb(100, 100, 100);
-    --text-lighter: rgb(150, 150, 150);
-    --link: rgb(255, 255, 255);
-    --card-bg: rgb(255, 255, 255);
-    --border: rgba(0, 0, 0, 0.1);
+    /* Dark Theme Colors */
+    --primary: #005826;
+    /* Your brand green */
+    --primary-dark: #003d1c;
+    --secondary: #00a851;
+    /* Brighter green for accents */
+    --secondary-dark: #008c44;
+    --background: #0a0a0a;
+    /* Near black background */
+    --text: #ffffff;
+    /* White text */
+    --text-light: #b0b0b0;
+    /* Light gray */
+    --text-lighter: #888888;
+    /* Medium gray */
+    --link: #00a851;
+    --card-bg: #1a1a1a;
+    /* Dark cards */
+    --border: rgba(255, 255, 255, 0.1);
 
     /* Status Colors */
-    --completed: rgb(25, 135, 84);
-    --in-progress: rgb(13, 110, 253);
-    --planned: rgb(255, 193, 7);
-    --future: rgb(111, 66, 193);
+    --completed: #00a851;
+    --in-progress: #4dabf7;
+    --planned: #ffc107;
+    --future: #9c36b5;
 
     /* Shadows */
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
 
     /* Spacing */
     --space-xs: 0.5rem;
@@ -37,6 +43,13 @@
     --radius-md: 12px;
     --radius-lg: 16px;
     --radius-xl: 24px;
+
+    /* Theme Variables */
+    --background-light: rgb(239, 246, 243);
+    --card-bg-light: rgb(255, 255, 255);
+    --text-light-mode: rgb(0, 0, 0);
+    --text-light-light: rgb(100, 100, 100);
+    --border-light: rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -90,35 +103,52 @@ ul {
     padding: var(--space-md) 0;
     margin-bottom: var(--space-lg);
     border-bottom: 1px solid var(--border);
+    min-height: 80px; /* Add this to prevent header squishing */
 }
 
 .logo-section {
     display: flex;
     align-items: center;
-    gap: var(--space-md);
+    gap: 0px; /* No gap between logo and text */
 }
+
+
 
 .logo-link {
     display: flex;
     align-items: center;
-    gap: var(--space-md);
+    gap: 12px;
+    /* Same reduced gap */
 }
 
 .logo-placeholder {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+    width: 120px; /* Doubled */
+    height: 120px; /* Doubled */
+    background: transparent;
     border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 1.5rem;
+    overflow: hidden;
 }
+
+.logo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 5px;
+    /* Small padding if needed */
+}
+
 
 .header-text h1 {
     font-size: 1.8rem;
     margin-bottom: 4px;
+}
+
+/* Add this NEW rule */
+.header-text {
+    margin-left: 10px; /* Adjust this value */
 }
 
 .subtitle {
@@ -1254,5 +1284,180 @@ ul {
 }
 
 .phase-planning p {
+    color: var(--text-light);
+}
+
+/* Dark mode specific adjustments */
+.hero {
+    background-color: #1a1a1a;
+    border: 1px solid var(--border);
+}
+
+.phase-card,
+.tech-card,
+.feature-card,
+.stat-card,
+.tech-detail-card,
+.vision-card,
+.detail-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+}
+
+.footer {
+    background-color: #111111;
+    border-top: 1px solid var(--border);
+}
+
+.btn-secondary {
+    background-color: #2a2a2a;
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.btn-secondary:hover {
+    background-color: #3a3a3a;
+}
+
+.progress-bar {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tag {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+}
+
+/* Light Theme */
+body[data-theme="light"] {
+    --background: var(--background-light);
+    --card-bg: var(--card-bg-light);
+    --text: var(--text-light-mode);
+    --text-light: var(--text-light-light);
+    --border: var(--border-light);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Theme (default) */
+body[data-theme="dark"] {
+    --background: #0a0a0a;
+    --card-bg: #1a1a1a;
+    --text: #ffffff;
+    --text-light: #b0b0b0;
+    --border: rgba(255, 255, 255, 0.1);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Theme toggle button */
+#theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+/* Smooth theme transition */
+body,
+.phase-card,
+.tech-card,
+.feature-card {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== COMPLETE THEME STYLES ===== */
+
+/* Light Theme */
+body[data-theme="light"] {
+    /* Variables already set */
+}
+
+/* Specific light theme styles */
+body[data-theme="light"] .hero h2,
+body[data-theme="light"] .section-title,
+body[data-theme="light"] .phase-card h3,
+body[data-theme="light"] .tech-card h4,
+body[data-theme="light"] .feature-card h4,
+body[data-theme="light"] .footer h4,
+body[data-theme="light"] .footer p,
+body[data-theme="light"] .footer-link {
+    color: var(--text-light-mode);
+}
+
+body[data-theme="light"] .hero {
+    background-color: var(--card-bg-light);
+    border: 1px solid var(--border-light);
+}
+
+body[data-theme="light"] .footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid var(--border-light);
+}
+
+body[data-theme="light"] .btn-secondary {
+    background-color: #f1f3f4;
+    border: 1px solid var(--border-light);
+    color: var(--text-light-mode);
+}
+
+body[data-theme="light"] .btn-secondary:hover {
+    background-color: #e8eaed;
+}
+
+body[data-theme="light"] .progress-bar {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+body[data-theme="light"] .tag {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--text-light-light);
+}
+
+/* Dark Theme */
+body[data-theme="dark"] {
+    /* Variables already set */
+}
+
+/* Specific dark theme styles */
+body[data-theme="dark"] .hero h2,
+body[data-theme="dark"] .section-title,
+body[data-theme="dark"] .phase-card h3,
+body[data-theme="dark"] .tech-card h4,
+body[data-theme="dark"] .feature-card h4,
+body[data-theme="dark"] .footer h4,
+body[data-theme="dark"] .footer p,
+body[data-theme="dark"] .footer-link {
+    color: #ffffff;
+}
+
+body[data-theme="dark"] .hero {
+    background-color: #1a1a1a;
+    border: 1px solid var(--border);
+}
+
+body[data-theme="dark"] .footer {
+    background-color: #111111;
+    border-top: 1px solid var(--border);
+}
+
+body[data-theme="dark"] .btn-secondary {
+    background-color: #2a2a2a;
+    border: 1px solid var(--border);
+    color: #ffffff;
+}
+
+body[data-theme="dark"] .btn-secondary:hover {
+    background-color: #3a3a3a;
+}
+
+body[data-theme="dark"] .progress-bar {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body[data-theme="dark"] .tag {
+    background-color: rgba(255, 255, 255, 0.1);
     color: var(--text-light);
 }
