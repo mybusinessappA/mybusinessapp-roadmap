@@ -13,32 +13,44 @@
 </head>
 
 <body data-theme="light">
-    <!-- Header (copy exactly from index.html) -->
+    <!-- Header (Full Width) -->
     <header class="site-header full-width">
         <div class="container">
+            <!-- Left Side: Logo + Text Group -->
             <div class="header-left">
-                <div class="logo">
-                    <a href="index.html">
-                        <span class="logo-text">MyBusinessApp</span>
-                    </a>
+                <div class="logo-group">
+                    <div class="logo-placeholder">
+                        <img src="assets/images/app-icon.png" alt="My Business App Logo">
+                    </div>
+                    <div class="brand-text">
+                        <h1>My Business App</h1>
+                        <p class="subtitle">Finance Management Application</p>
+                    </div>
                 </div>
             </div>
 
+            <!-- Center: Navigation Tabs -->
             <nav class="header-nav">
                 <ul class="nav-list">
                     <li><a href="index.html" class="nav-link">Home</a></li>
-                    <li><a href="phase1.html" class="nav-link active">Phase 1</a></li>
+                    <li><a href="phase1.html" class="nav-link">Phase 1</a></li>
                     <li><a href="phase2.html" class="nav-link">Phase 2</a></li>
                     <li><a href="phase3.html" class="nav-link">Phase 3</a></li>
                     <li><a href="phase4.html" class="nav-link">Support us</a></li>
                 </ul>
             </nav>
 
+            <!-- Right Side: Theme Toggle + Download + Mobile Menu -->
             <div class="header-right">
-                <button id="theme-toggle" class="theme-toggle">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <button id="theme-toggle" class="btn-icon" title="Toggle theme">
                     <i class="fas fa-moon"></i>
                 </button>
-                <a href="#download-section" class="btn-primary btn-small">Download</a>
+                <a href="#download-section" class="btn-primary btn-small">
+                    <i class="fas fa-download"></i> Download
+                </a>
             </div>
         </div>
     </header>
@@ -173,7 +185,7 @@
                 <div class="cta-content" id="download-section">
                     <h2>Start Your Journey Today</h2>
                     <p>Download the app and begin managing your finances and business with ease</p>
-                    <div class="cta-buttons">
+                    <div class="cta-content" id="download-section">
                         <a href="downloads/FinanceApp-v1.0.apk" download class="btn-primary btn-large">
                             <i class="fas fa-download"></i> Download Now
                         </a>
