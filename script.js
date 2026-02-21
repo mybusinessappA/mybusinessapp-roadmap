@@ -273,7 +273,7 @@ function forceDarkModeColors() {
     }
 }
 
-// Phase 4 - Partnership Form Handling
+// Phase 4 - Partnership Form with Google Apps Script
 document.addEventListener('DOMContentLoaded', function() {
     const partnershipForm = document.getElementById('partnershipForm');
     
@@ -287,17 +287,48 @@ document.addEventListener('DOMContentLoaded', function() {
                 email: document.getElementById('email').value,
                 company: document.getElementById('company').value,
                 partnershipType: document.getElementById('partnershipType').value,
-                message: document.getElementById('message').value
+                message: document.getElementById('message').value,
+                type: 'Partnership Inquiry', // To distinguish from contact form
+                timestamp: new Date().toISOString()
             };
             
-            // Here you would typically send this to your backend
-            console.log('Partnership Inquiry:', formData);
+            // Get submit button
+            const submitBtn = partnershipForm.querySelector('.submit-button');
+            const originalText = submitBtn.innerHTML;
             
-            // Show success message (replace with your preferred notification)
-            alert('Thank you for your partnership interest! We will contact you within 2-3 business days.');
+            // Show loading state
+            submitBtn.innerHTML = '<span class="button-icon">⏳</span> Sending...';
+            submitBtn.disabled = true;
             
-            // Reset form
-            partnershipForm.reset();
+            // Prepare data for Google Apps Script
+            const formBody = new URLSearchParams();
+            Object.keys(formData).forEach(key => {
+                formBody.append(key, formData[key]);
+            });
+            
+            // Send to Google Apps Script
+            fetch('https://script.google.com/macros/s/AKfycbzcb7t382uPBwUB5dLwTBJCH4mx5Vy2X0N9umFuYH8MbWpDNxHqvhvsL-YLA1JwVRyZsw/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formBody
+            })
+            .then(() => {
+                // Success (no-cors means we can't read response)
+                alert('Thank you for your partnership interest! We will contact you within 2-3 business days.');
+                partnershipForm.reset();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Failed to send. Please email us directly at mybusinessappa@gmail.com');
+            })
+            .finally(() => {
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            });
         });
     }
 });
