@@ -274,9 +274,9 @@ function forceDarkModeColors() {
 }
 
 // Phase 4 - Partnership Form with Google Apps Script & Inline Status
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const partnershipForm = document.getElementById('partnershipForm');
-    
+
     if (partnershipForm) {
         // Create status div if it doesn't exist
         let statusDiv = partnershipForm.querySelector('.form-status');
@@ -285,10 +285,10 @@ document.addEventListener('DOMContentLoaded', function() {
             statusDiv.className = 'form-status';
             partnershipForm.appendChild(statusDiv);
         }
-        
-        partnershipForm.addEventListener('submit', function(e) {
+
+        partnershipForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             // Get form data
             const formData = {
                 name: document.getElementById('name').value,
@@ -299,26 +299,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 type: 'Partnership Inquiry',
                 timestamp: new Date().toISOString()
             };
-            
+
             // Get submit button
             const submitBtn = partnershipForm.querySelector('.submit-button');
             const originalText = submitBtn.innerHTML;
-            
+
             // Show loading state
             submitBtn.innerHTML = '<span class="button-icon">⏳</span> Sending...';
             submitBtn.disabled = true;
-            
+
             // Clear and show status
             statusDiv.className = 'form-status';
             statusDiv.textContent = 'Sending your inquiry...';
             statusDiv.style.display = 'block';
-            
+
             // Prepare data for Google Apps Script
             const formBody = new URLSearchParams();
             Object.keys(formData).forEach(key => {
                 formBody.append(key, formData[key]);
             });
-            
+
             // Send to Google Apps Script
             fetch('https://script.google.com/macros/s/AKfycbzcb7t382uPBwUB5dLwTBJCH4mx5Vy2X0N9umFuYH8MbWpDNxHqvhvsL-YLA1JwVRyZsw/exec', {
                 method: 'POST',
@@ -328,63 +328,63 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: formBody
             })
-            .then(() => {
-                // Success
-                statusDiv.className = 'form-status success';
-                statusDiv.textContent = 'Thank you! We will contact you within 2-3 business days.';
-                partnershipForm.reset();
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                statusDiv.className = 'form-status error';
-                statusDiv.textContent = 'Failed to send. Please email us directly at mybusinessappa@gmail.com';
-            })
-            .finally(() => {
-                // Reset button
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                
-                // Hide status after 8 seconds
-                setTimeout(() => {
-                    statusDiv.style.display = 'none';
-                }, 8000);
-            });
+                .then(() => {
+                    // Success
+                    statusDiv.className = 'form-status success';
+                    statusDiv.textContent = 'Thank you! We will contact you within 2-3 business days.';
+                    partnershipForm.reset();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    statusDiv.className = 'form-status error';
+                    statusDiv.textContent = 'Failed to send. Please email us directly at mybusinessappa@gmail.com';
+                })
+                .finally(() => {
+                    // Reset button
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+
+                    // Hide status after 8 seconds
+                    setTimeout(() => {
+                        statusDiv.style.display = 'none';
+                    }, 8000);
+                });
         });
     }
 });
 
 // Footer Contact Form - Google Apps Script Integration
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const contactForm = document.getElementById('footerContactForm');
-    
+
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            
+
             // Get form data
             const name = document.getElementById('footerName').value;
             const email = document.getElementById('footerEmail').value;
             const message = document.getElementById('footerMessage').value;
-            
+
             // Get button and status elements
             const submitBtn = this.querySelector('.footer-submit-btn');
             const btnText = this.querySelector('.btn-text');
             const btnLoader = this.querySelector('.btn-loader');
             const formStatus = this.querySelector('.form-status');
-            
+
             // Show loading state
             btnText.style.display = 'none';
             btnLoader.style.display = 'inline';
             submitBtn.disabled = true;
             formStatus.style.display = 'none';
-            
+
             // Prepare data for Google Apps Script
             const formData = new URLSearchParams();
             formData.append('name', name);
             formData.append('email', email);
             formData.append('message', message);
             formData.append('timestamp', new Date().toISOString());
-            
+
             // Send to Google Apps Script
             fetch('https://script.google.com/macros/s/AKfycbzcb7t382uPBwUB5dLwTBJCH4mx5Vy2X0N9umFuYH8MbWpDNxHqvhvsL-YLA1JwVRyZsw/exec', {
                 method: 'POST',
@@ -394,34 +394,113 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: formData
             })
-            .then(() => {
-                // Success (no-cors means we can't read response)
-                formStatus.className = 'form-status success';
-                formStatus.textContent = 'Message sent successfully! We\'ll respond within 24 hours.';
-                formStatus.style.display = 'block';
-                
-                // Reset form
-                contactForm.reset();
-            })
-            .catch((error) => {
-                // Error
-                console.error('Error:', error);
-                formStatus.className = 'form-status error';
-                formStatus.textContent = 'Failed to send. Please email us directly at mybusinessappa@gmail.com';
-                formStatus.style.display = 'block';
-            })
-            .finally(() => {
-                // Reset button
-                btnText.style.display = 'inline';
-                btnLoader.style.display = 'none';
-                submitBtn.disabled = false;
-                
-                // Hide status after 5 seconds
-                setTimeout(() => {
-                    formStatus.style.display = 'none';
-                }, 5000);
+                .then(() => {
+                    // Success (no-cors means we can't read response)
+                    formStatus.className = 'form-status success';
+                    formStatus.textContent = 'Message sent successfully! We\'ll respond within 24 hours.';
+                    formStatus.style.display = 'block';
+
+                    // Reset form
+                    contactForm.reset();
+                })
+                .catch((error) => {
+                    // Error
+                    console.error('Error:', error);
+                    formStatus.className = 'form-status error';
+                    formStatus.textContent = 'Failed to send. Please email us directly at mybusinessappa@gmail.com';
+                    formStatus.style.display = 'block';
+                })
+                .finally(() => {
+                    // Reset button
+                    btnText.style.display = 'inline';
+                    btnLoader.style.display = 'none';
+                    submitBtn.disabled = false;
+
+                    // Hide status after 5 seconds
+                    setTimeout(() => {
+                        formStatus.style.display = 'none';
+                    }, 5000);
+                });
+        });
+    }
+});
+
+// Mobile Menu Toggle
+document.addEventListener('DOMContentLoaded', function () {
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.querySelector('.nav-menu');
+
+    if (menuToggle && navMenu) {
+        menuToggle.addEventListener('click', function () {
+            navMenu.classList.toggle('active');
+
+            // Change icon
+            const icon = this.querySelector('i');
+            if (navMenu.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Close menu when clicking a link
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
             });
         });
     }
 });
 
+// Simple mobile menu fix - place at bottom of page
+(function () {
+    console.log('Simple menu fix loaded');
+
+    // Get elements
+    const menuToggle = document.getElementById('menuToggle');
+    const headerNav = document.querySelector('.header-nav');
+
+    if (!menuToggle || !headerNav) {
+        console.log('Menu elements not found');
+        return;
+    }
+
+    console.log('Menu elements found, attaching click handler');
+
+    // Remove any existing listeners by cloning and replacing
+    const newMenuToggle = menuToggle.cloneNode(true);
+    menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
+
+    // Add new click listener
+    newMenuToggle.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        console.log('Menu clicked - toggling');
+
+        // Toggle menu
+        if (headerNav.classList.contains('active')) {
+            headerNav.classList.remove('active');
+            this.querySelector('i').className = 'fas fa-bars';
+        } else {
+            headerNav.classList.add('active');
+            this.querySelector('i').className = 'fas fa-times';
+        }
+    });
+
+    // Close when clicking links
+    headerNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function () {
+            headerNav.classList.remove('active');
+            const icon = newMenuToggle.querySelector('i');
+            if (icon) icon.className = 'fas fa-bars';
+        });
+    });
+
+    console.log('Menu fix complete');
+})();
