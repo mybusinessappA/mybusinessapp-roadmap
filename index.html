@@ -13,253 +13,290 @@
 </head>
 
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo-section">
-                <div class="logo-placeholder">
-                    <img src="assets/images/app-icon.png" alt="My Business App Logo">
-                </div>
-                <div class="header-text">
-                    <h1>My Business App</h1>
-                    <p class="subtitle">Finance Management Application</p>
+    <!-- Header (Full Width) -->
+    <header class="site-header full-width">
+        <div class="container">
+            <!-- Left Side: Logo + Text Group -->
+            <div class="header-left">
+                <div class="logo-group">
+                    <div class="logo-placeholder">
+                        <img src="assets/images/app-icon.png" alt="My Business App Logo">
+                    </div>
+                    <div class="brand-text">
+                        <h1>My Business App</h1>
+                        <p class="subtitle">Finance Management Application</p>
+                    </div>
                 </div>
             </div>
-            <div class="header-actions">
-                <button id="theme-toggle" class="btn-secondary" title="Toggle theme">
-                    <i class="fas fa-moon"></i> Dark Mode
+
+            <!-- Center: Navigation Tabs -->
+            <nav class="header-nav">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="phase1.html" class="nav-link">Phase 1</a></li>
+                    <li><a href="phase2.html" class="nav-link">Phase 2</a></li>
+                    <li><a href="phase3.html" class="nav-link">Phase 3</a></li>
+                    <li><a href="phase4.html" class="nav-link">Support us</a></li>
+                </ul>
+            </nav>
+
+            <!-- Right Side: Theme Toggle + Download -->
+            <div class="header-right">
+                <button id="theme-toggle" class="btn-icon" title="Toggle theme">
+                    <i class="fas fa-moon"></i>
                 </button>
-                <a href="https://mybusinessapp.com.ng" class="btn-primary" target="_blank">
-                    <i class="fas fa-external-link-alt"></i> Visit Main App
+                <a href="phase1.html" class="btn-primary btn-small">
+                    <i class="fas fa-download"></i> Download
                 </a>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <h2>Development Roadmap</h2>
-                <p>Transparent view of our development journey. See what we've built, what we're working on, and what's
-                    coming next for our finance management app.</p>
-                <div class="status-badges">
-                    <span class="badge completed"><i class="fas fa-check-circle"></i> Completed</span>
-                    <span class="badge in-progress"><i class="fas fa-sync-alt"></i> In Progress</span>
-                    <span class="badge planned"><i class="fas fa-clock"></i> Planned</span>
-                    <span class="badge future"><i class="fas fa-star"></i> Future</span>
+    <!-- Section 1: App Screens Carousel (Full Width) -->
+    <section class="phone-carousel-section full-width">
+        <div class="container">
+            <div class="phone-carousel-container">
+                <!-- Left: Phone Mockup -->
+                <div class="phone-mockup">
+                    <div class="phone-frame">
+                        <div class="phone-screen" id="phoneScreen">
+                            <img src="assets/images/screens/splash-screen.png" alt="App Screen"
+                                class="screen-image active">
+                            <img src="assets/images/screens/login-screen.png" alt="App Screen" class="screen-image">
+                            <img src="assets/images/screens/dashboard-screen.png" alt="App Screen" class="screen-image">
+                            <img src="assets/images/screens/business-setup-screen.png" alt="App Screen"
+                                class="screen-image">
+                            <img src="assets/images/screens/finance-screen.png" alt="App Screen" class="screen-image">
+                        </div>
+                        <div class="phone-home-button"></div>
+                    </div>
+                </div>
+
+                <!-- Right: Description Area -->
+                <div class="screen-description-area">
+                    <div class="screen-description" id="screenDescription">
+                        <!-- Splash Screen -->
+                        <div class="description-content active">
+                            <h3>Splash Screen</h3>
+                            <p>Branded loading screen with app logo and smooth transition to main app.</p>
+                            <div class="feature-tags">
+                                <span class="tag">UI/UX</span>
+                                <span class="tag">Loading</span>
+                            </div>
+                        </div>
+
+                        <!-- Login Screen -->
+                        <div class="description-content">
+                            <h3>Login Screen</h3>
+                            <p>Secure authentication with email/password or biometric options.</p>
+                            <div class="feature-tags">
+                                <span class="tag">Security</span>
+                                <span class="tag">Auth</span>
+                                <span class="tag">Biometric</span>
+                            </div>
+                        </div>
+
+                        <!-- Dashboard Screen -->
+                        <div class="description-content">
+                            <h3>Dashboard</h3>
+                            <p>Overview of your business finances with key metrics and charts.</p>
+                            <div class="feature-tags">
+                                <span class="tag">Analytics</span>
+                                <span class="tag">Real-time</span>
+                                <span class="tag">Charts</span>
+                            </div>
+                        </div>
+
+                        <!-- Business Setup Screen -->
+                        <div class="description-content">
+                            <h3>Business Setup</h3>
+                            <p>Configure your business profile, tax rates, and fiscal year.</p>
+                            <div class="feature-tags">
+                                <span class="tag">Configuration</span>
+                                <span class="tag">Tax</span>
+                                <span class="tag">Profile</span>
+                            </div>
+                        </div>
+
+                        <!-- Finance Management Screen -->
+                        <div class="description-content">
+                            <h3>Finance Management</h3>
+                            <p>Track expenses, manage invoices, and monitor cash flow.</p>
+                            <div class="feature-tags">
+                                <span class="tag">Expenses</span>
+                                <span class="tag">Invoices</span>
+                                <span class="tag">Cash Flow</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Carousel Controls -->
+                    <div class="screen-controls">
+                        <button class="control-btn prev" id="prevScreen">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="screen-dots" id="screenDots">
+                            <span class="dot active" data-index="0"></span>
+                            <span class="dot" data-index="1"></span>
+                            <span class="dot" data-index="2"></span>
+                            <span class="dot" data-index="3"></span>
+                            <span class="dot" data-index="4"></span>
+                        </div>
+                        <button class="control-btn next" id="nextScreen">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Phase Overview Cards -->
-        <section class="phases-overview">
-            <h2 class="section-title">Development Phases</h2>
+    <!-- Section 2: Main Content - Phases (Full Width) -->
+    <section class="phases-section full-width">
+        <div class="container">
+            <h2 class="section-title">App Roadmap and Devlopment phases</h2>
             <p class="section-subtitle">Click on any phase to see detailed features and progress</p>
 
             <div class="phases-grid">
                 <!-- Phase 1 Card -->
-                <a href="phase1.html" class="phase-card completed">
-                    <div class="phase-card-header">
-                        <div class="phase-number">Phase 1</div>
-                        <span class="phase-status-badge completed">Completed</span>
-                    </div>
-                    <h3>Foundation & Core Features</h3>
-                    <p class="phase-card-desc">Basic app structure and essential finance features</p>
-                    <div class="phase-stats">
-                        <div class="stat">
-                            <i class="fas fa-check-circle"></i>
-                            <span>6 features</span>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-calendar-check"></i>
-                            <span>Finished</span>
-                        </div>
-                    </div>
-                    <div class="phase-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 100%"></div>
-                        </div>
-                        <span>100% Complete</span>
+                <a href="phase1.html" class="phase-card">
+                    <div class="phase-card-content">
+                        <div class="phase-title">Phase 1: Structure and core features</div>
+                        <div class="phase-description">Complete financial management platform with tools for personal
+                            budgets, expense tracking, and business finances.</div>
+                        <ul class="phase-features">
+                            <li><i class="fas fa-check-circle"></i> Personal & family budget setup</li>
+                            <li><i class="fas fa-check-circle"></i> Expense tracking & categorization</li>
+                            <li><i class="fas fa-check-circle"></i> Visual spending insights</li>
+                            <li><i class="fas fa-check-circle"></i> Business income/expense tracking</li>
+                            <li><i class="fas fa-check-circle"></i> Savings goals tracking</li>
+                        </ul>
+                        <div class="phase-status" style="background: #00a86b20; color: #00a86b;">Completed</div>
                     </div>
                 </a>
 
                 <!-- Phase 2 Card -->
-                <a href="phase2.html" class="phase-card in-progress">
-                    <div class="phase-card-header">
-                        <div class="phase-number">Phase 2</div>
-                        <span class="phase-status-badge in-progress">In Progress</span>
-                    </div>
-                    <h3>Data Management & Editing</h3>
-                    <p class="phase-card-desc">Enhanced data manipulation and user experience</p>
-                    <div class="phase-stats">
-                        <div class="stat">
-                            <i class="fas fa-sync-alt"></i>
-                            <span>2 in progress</span>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-clock"></i>
-                            <span>2 planned</span>
-                        </div>
-                    </div>
-                    <div class="phase-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 25%"></div>
-                        </div>
-                        <span>25% Complete</span>
+                <a href="phase2.html" class="phase-card">
+                    <div class="phase-card-content">
+                        <div class="phase-title">Phase 2: All Features unlocked</div>
+                        <div class="phase-description">All features unlocked — complete financial tools for personal and
+                            business use.</div>
+                        <ul class="phase-features">
+                            <li><i class="fas fa-check-circle"></i> My Finances dashboard</li>
+                            <li><i class="fas fa-check-circle"></i> My Business tools</li>
+                            <li><i class="fas fa-check-circle"></i> Investment tracking</li>
+                            <li><i class="fas fa-check-circle"></i> CV Builder integration</li>
+                            <li><i class="fas fa-check-circle"></i> Business Profile Builder</li>
+                        </ul>
+                        <div class="phase-status" style="background: #ffb80020; color: #ffb800;">In-Progress</div>
                     </div>
                 </a>
 
                 <!-- Phase 3 Card -->
-                <a href="phase3.html" class="phase-card planned">
-                    <div class="phase-card-header">
-                        <div class="phase-number">Phase 3</div>
-                        <span class="phase-status-badge planned">Planned</span>
-                    </div>
-                    <h3>Advanced Features</h3>
-                    <p class="phase-card-desc">Advanced analytics and business tools</p>
-                    <div class="phase-stats">
-                        <div class="stat">
-                            <i class="fas fa-clock"></i>
-                            <span>4 features</span>
+                <a href="phase3.html" class="phase-card">
+                    <div class="phase-card-content">
+                        <div class="phase-title">Phase 3: iOS Launch</div>
+                        <div class="phase-description">The complete My Business App experience arrives on Apple devices.
                         </div>
-                        <div class="stat">
-                            <i class="fas fa-calendar"></i>
-                            <span>Q3 2024</span>
-                        </div>
-                    </div>
-                    <div class="phase-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%"></div>
-                        </div>
-                        <span>Not Started</span>
+                        <ul class="phase-features">
+                            <li><i class="fas fa-check-circle"></i> iOS optimized app</li>
+                            <li><i class="fas fa-check-circle"></i> Cross-device sync</li>
+                            <li><i class="fas fa-check-circle"></i> iPhone & iPad support</li>
+                            <li><i class="fas fa-check-circle"></i> All Phase 2 features</li>
+                            <li><i class="fas fa-check-circle"></i> Apple device optimization</li>
+                        </ul>
+                        <div class="phase-status" style="background: #6c757d20; color: #6c757d;">Planned</div>
                     </div>
                 </a>
 
-                <!-- Phase 4 Card -->
-                <a href="phase4.html" class="phase-card future">
-                    <div class="phase-card-header">
-                        <div class="phase-number">Phase 4</div>
-                        <span class="phase-status-badge future">Future</span>
-                    </div>
-                    <h3>Scaling & Platform Expansion</h3>
-                    <p class="phase-card-desc">Growing the app ecosystem</p>
-                    <div class="phase-stats">
-                        <div class="stat">
-                            <i class="fas fa-star"></i>
-                            <span>4 features</span>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-calendar"></i>
-                            <span>2025</span>
-                        </div>
-                    </div>
-                    <div class="phase-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 0%"></div>
-                        </div>
-                        <span>Future Planning</span>
+                <!-- Phase 4 Card (Support Us) -->
+                <a href="phase4.html" class="phase-card">
+                    <div class="phase-card-content">
+                        <div class="phase-title">support us</div>
+                        <div class="phase-description">Support the project and help us continue building tools for
+                            individuals and businesses.</div>
+                        <ul class="phase-features">
+                            <li><i class="fas fa-check-circle"></i> Make a donation</li>
+                            <li><i class="fas fa-check-circle"></i> Become a partner</li>
+                            <li><i class="fas fa-check-circle"></i> Support development</li>
+                            <li><i class="fas fa-check-circle"></i> Community growth</li>
+                            <li><i class="fas fa-check-circle"></i> Platform expansion</li>
+                        </ul>
+                        <div class="phase-status" style="background: #49505720; color: #495057;">Future</div>
                     </div>
                 </a>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Quick Stats -->
-        <section class="quick-stats">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon completed">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>6</h3>
-                        <p>Features Completed</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon in-progress">
-                        <i class="fas fa-sync-alt"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>2</h3>
-                        <p>In Progress</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon planned">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>6</h3>
-                        <p>Planned Features</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon future">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3>4</h3>
-                        <p>Future Ideas</p>
-                    </div>
+    <!-- Section 3: Additional Content / CTA (Full Width) -->
+    <section class="cta-section full-width">
+        <div class="container">
+            <div class="cta-content">
+                <h3>Ready to Simplify Your Business Finances?</h3>
+                <p>Download our app today and take control of your business finances.</p>
+                <div class="cta-buttons">
+                    <a href="phase1.html" class="btn-primary btn-large">
+                        <i class="fas fa-download"></i> Download APK
+                    </a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Technical Stack -->
-        <section class="tech-stack">
-            <h2 class="section-title">Technical Stack</h2>
-            <div class="tech-grid">
-                <div class="tech-card">
-                    <div class="tech-icon">
-                        <i class="fab fa-html5"></i>
-                    </div>
-                    <h4>Frontend</h4>
-                    <p>HTML5, CSS3, JavaScript</p>
-                    <p class="tech-desc">Cordova/PhoneGap for Android</p>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h4>Backend</h4>
-                    <p>Supabase (PostgreSQL)</p>
-                    <p class="tech-desc">Authentication & Real-time DB</p>
-                </div>
-                <div class="tech-card">
-                    <div class="tech-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h4>Platform</h4>
-                    <p>Android App</p>
-                    <p class="tech-desc">Hybrid mobile application</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
+    <!-- Footer (Full Width) -->
+    <footer class="site-footer full-width">
+        <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>My Business App</h4>
                     <p>Simplifying finance management for businesses</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Last Updated</h4>
-                    <p id="current-date">Loading...</p>
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="phase1.html">Phase 1</a></li>
+                        <li><a href="phase2.html">Phase 2</a></li>
+                        <li><a href="phase3.html">Phase 3</a></li>
+                        <li><a href="phase4.html">Phase 4</a></li>
+                    </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p>For feedback or suggestions</p>
-                    <a href="mailto:contact@mybusinessapp.com.ng" class="footer-link">
-                        <i class="fas fa-envelope"></i> contact@mybusinessapp.com.ng
-                    </a>
+                    <h4>Contact Us</h4>
+                    <p>Send us a message</p>
+
+                    <form id="footerContactForm" class="footer-contact-form">
+                        <div class="form-group">
+                            <input type="text" id="footerName" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="footerEmail" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="footerMessage" name="message" rows="3" placeholder="Your Message"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="footer-submit-btn">
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-loader" style="display: none;">Sending...</span>
+                        </button>
+                        <div class="form-status" style="display: none;"></div>
+                    </form>
+
+                    <div class="footer-contact-info">
+                        <p>Or email us directly:</p>
+                        <a href="mailto:mybusinessappa@gmail.com" class="footer-link">
+                            <i class="fas fa-envelope"></i> mybusinessappa@gmail.com
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; <span id="current-year"></span> My Business App. All rights reserved.</p>
-                <p>Roadmap version 1.0 | Status: Active Development</p>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
