@@ -13,274 +13,251 @@
 </head>
 
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo-section">
-                <a href="index.html" class="logo-link">
+    <!-- Header (Full Width) -->
+    <header class="site-header full-width">
+        <div class="container">
+            <!-- Left Side: Logo + Text Group -->
+            <div class="header-left">
+                <div class="logo-group">
                     <div class="logo-placeholder">
                         <img src="assets/images/app-icon.png" alt="My Business App Logo">
                     </div>
-                    <div class="header-text">
+                    <div class="brand-text">
                         <h1>My Business App</h1>
                         <p class="subtitle">Finance Management Application</p>
                     </div>
-                </a>
+                </div>
             </div>
-            <div class="header-actions">
-                <a href="index.html" class="btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Back to Roadmap
-                </a>
-                <a href="https://mybusinessapp.com.ng" class="btn-primary" target="_blank">
-                    <i class="fas fa-external-link-alt"></i> Visit App
-                </a>
-            </div>
-        </header>
 
-        <!-- Phase Header -->
-        <section class="phase-header-detail">
-            <div class="phase-status-header planned">
-                <div class="phase-header-content">
-                    <span class="phase-category">Phase 3</span>
-                    <h2>Advanced Features</h2>
-                    <p class="phase-desc">Advanced analytics and business tools for comprehensive financial management
-                        and business insights.</p>
-                    <div class="phase-meta">
-                        <div class="meta-item">
-                            <i class="fas fa-clock"></i>
-                            <span>Status: <strong>Planned</strong></span>
+            <!-- Center: Navigation Tabs -->
+            <nav class="header-nav">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="phase1.html" class="nav-link">Phase 1</a></li>
+                    <li><a href="phase2.html" class="nav-link">Phase 2</a></li>
+                    <li><a href="phase3.html" class="nav-link">Phase 3</a></li>
+                    <li><a href="phase4.html" class="nav-link">Support us</a></li>
+                </ul>
+            </nav>
+
+            <!-- Right Side: Theme Toggle + Download -->
+            <div class="header-right">
+                <button id="theme-toggle" class="btn-icon" title="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="phase1.html" class="btn-primary btn-small">
+                    <i class="fas fa-download"></i> Download
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Phase 3: iOS Integration -->
+        <section class="phase3-section">
+            <div class="container">
+                <!-- Header -->
+                <div class="phase3-header">
+                    <h1>Phase 3: Now on iOS</h1>
+                    <p class="phase3-subtitle">The complete My Business App experience arrives on Apple devices</p>
+                    <div class="platform-badges">
+                        <span class="platform-badge android">Android ✓</span>
+                        <span class="platform-badge ios">iOS New</span>
+                    </div>
+                </div>
+
+                <!-- iOS Launch Hero -->
+                <div class="ios-hero">
+                    <div class="ios-content">
+                        <div class="ios-device-showcase">
+                            <div class="device-mockup iphone">
+                                <div class="device-screen">
+                                    <div class="screen-content">
+                                        <div class="app-icon">💰📊📈</div>
+                                        <div class="app-name">My Business App</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="device-mockup ipad">
+                                <div class="device-screen">
+                                    <div class="screen-content">
+                                        <div class="app-icon">📄🏢</div>
+                                        <div class="app-name">All Features</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="meta-item">
-                            <i class="fas fa-tasks"></i>
-                            <span>Features: <strong>4 planned</strong></span>
+
+                        <div class="ios-launch-message">
+                            <h2>Coming to iPhone & iPad</h2>
+                            <p class="ios-tagline">All Phase 2 features. Now optimized for iOS.</p>
+
+                            <div class="feature-highlight">
+                                <div class="highlight-item">
+                                    <span class="highlight-icon">✓</span>
+                                    <span>Full Budget Management</span>
+                                </div>
+                                <div class="highlight-item">
+                                    <span class="highlight-icon">✓</span>
+                                    <span>Complete Business Ledger</span>
+                                </div>
+                                <div class="highlight-item">
+                                    <span class="highlight-icon">✓</span>
+                                    <span>Investment Tools</span>
+                                </div>
+                                <div class="highlight-item">
+                                    <span class="highlight-icon">✓</span>
+                                    <span>CV & Business Profiles</span>
+                                </div>
+                            </div>
+
+                            <div class="app-store-badge">
+                                <div class="badge-content">
+                                    <span class="apple-icon">🍎</span>
+                                    <div class="badge-text">
+                                        <span class="small-text">Available on the</span>
+                                        <span class="store-name">App Store</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="meta-item">
-                            <i class="fas fa-calendar"></i>
-                            <span>Est. Start: <strong>Q3 2024</strong></span>
+                    </div>
+                </div>
+
+                <!-- Cross-Platform Sync -->
+                <div class="sync-section">
+                    <h3>Seamless Across All Devices</h3>
+                    <div class="sync-grid">
+                        <div class="sync-card">
+                            <div class="sync-icon">📱</div>
+                            <h4>Android</h4>
+                            <p>Phase 1 & 2 already live</p>
                         </div>
-                        <div class="meta-item">
-                            <i class="fas fa-calendar-check"></i>
-                            <span>Est. Completion: <strong>Q4 2024</strong></span>
+                        <div class="sync-arrow">⟷</div>
+                        <div class="sync-card ios-highlight">
+                            <div class="sync-icon">📱🍎</div>
+                            <h4>iOS</h4>
+                            <p>Phase 3 launching soon</p>
+                            <span class="coming-badge">New</span>
+                        </div>
+                    </div>
+                    <p class="sync-description">
+                        Your data syncs automatically. Start on Android, continue on iPhone.
+                        The same powerful features, now on both platforms.
+                    </p>
+                </div>
+
+                <!-- iOS Features -->
+                <div class="ios-features">
+                    <h3>Optimized for Apple Devices</h3>
+                    <div class="ios-features-grid">
+                        <div class="ios-feature-card">
+                            <div class="ios-feature-icon">📱</div>
+                            <h4>iPhone Optimized</h4>
+                            <p>Perfectly tailored for all iPhone screens</p>
+                        </div>
+                        <div class="ios-feature-card">
+                            <div class="ios-feature-icon">📟</div>
+                            <h4>iPad Support</h4>
+                            <p>Take advantage of the larger display</p>
+                        </div>
+                        <div class="ios-feature-card">
+                            <div class="ios-feature-icon">🔄</div>
+                            <h4>iCloud Sync</h4>
+                            <p>Keep your data in sync across devices</p>
+                        </div>
+                        <div class="ios-feature-card">
+                            <div class="ios-feature-icon">🔒</div>
+                            <h4>Face ID / Touch ID</h4>
+                            <p>Secure access with biometrics</p>
                         </div>
                     </div>
                 </div>
-                <div class="phase-header-icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-            </div>
-        </section>
 
-        <!-- Features List -->
-        <section class="phase-features">
-            <h3>Planned Features</h3>
-            <div class="features-grid">
-                <div class="feature-card planned">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-bar"></i>
-                    </div>
-                    <h4>Financial Reports & Analytics</h4>
-                    <p>Generate detailed financial reports with interactive charts, graphs, trend analysis, and business
-                        insights dashboard.</p>
-                    <div class="feature-tags">
-                        <span class="tag">Analytics</span>
-                        <span class="tag">Reporting</span>
-                        <span class="tag">Planned</span>
-                    </div>
-                    <div class="feature-priority">
-                        <span class="priority high">High Priority</span>
-                    </div>
-                </div>
-
-                <div class="feature-card planned">
-                    <div class="feature-icon">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <h4>Multi-business Support</h4>
-                    <p>Manage multiple businesses from a single account with separate finances, reporting, and switching
-                        between businesses.</p>
-                    <div class="feature-tags">
-                        <span class="tag">Multi-tenant</span>
-                        <span class="tag">Business</span>
-                        <span class="tag">Planned</span>
-                    </div>
-                    <div class="feature-priority">
-                        <span class="priority medium">Medium Priority</span>
-                    </div>
-                </div>
-
-                <div class="feature-card planned">
-                    <div class="feature-icon">
-                        <i class="fas fa-file-invoice"></i>
-                    </div>
-                    <h4>Invoice Generation</h4>
-                    <p>Create, send, and track professional invoices directly from the app with customizable templates
-                        and payment tracking.</p>
-                    <div class="feature-tags">
-                        <span class="tag">Invoicing</span>
-                        <span class="tag">Billing</span>
-                        <span class="tag">Planned</span>
-                    </div>
-                    <div class="feature-priority">
-                        <span class="priority high">High Priority</span>
-                    </div>
-                </div>
-
-                <div class="feature-card planned">
-                    <div class="feature-icon">
-                        <i class="fas fa-receipt"></i>
-                    </div>
-                    <h4>Expense Tracking Enhancements</h4>
-                    <p>Advanced expense tracking with receipt scanning, automatic categorization, mileage tracking, and
-                        per-diem calculations.</p>
-                    <div class="feature-tags">
-                        <span class="tag">Expenses</span>
-                        <span class="tag">Tracking</span>
-                        <span class="tag">Planned</span>
-                    </div>
-                    <div class="feature-priority">
-                        <span class="priority medium">Medium Priority</span>
+                <!-- Launch Timeline -->
+                <div class="launch-timeline">
+                    <h3>Release Timeline</h3>
+                    <div class="timeline-steps">
+                        <div class="timeline-step completed">
+                            <div class="step-marker">✓</div>
+                            <div class="step-content">
+                                <h4>Phase 1</h4>
+                                <p>Android Launch</p>
+                            </div>
+                        </div>
+                        <div class="timeline-step completed">
+                            <div class="step-marker">✓</div>
+                            <div class="step-content">
+                                <h4>Phase 2</h4>
+                                <p>All Features on Android</p>
+                            </div>
+                        </div>
+                        <div class="timeline-step active">
+                            <div class="step-marker">●</div>
+                            <div class="step-content">
+                                <h4>Phase 3</h4>
+                                <p>iOS Integration</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+    </div>
 
-        <!-- Feature Details -->
-        <section class="feature-details">
-            <h3>Detailed Feature Breakdown</h3>
-            <div class="detail-cards">
-                <div class="detail-card">
-                    <h4><i class="fas fa-chart-bar"></i> Financial Reports</h4>
-                    <ul>
-                        <li>Profit & Loss statements</li>
-                        <li>Balance sheets</li>
-                        <li>Cash flow analysis</li>
-                        <li>Custom report builder</li>
-                        <li>Export to PDF/Excel</li>
-                        <li>Comparative period analysis</li>
-                    </ul>
-                </div>
-
-                <div class="detail-card">
-                    <h4><i class="fas fa-building"></i> Multi-business</h4>
-                    <ul>
-                        <li>Unlimited business profiles</li>
-                        <li>Quick switching between businesses</li>
-                        <li>Consolidated reporting</li>
-                        <li>Separate user permissions per business</li>
-                        <li>Cross-business analytics</li>
-                    </ul>
-                </div>
-
-                <div class="detail-card">
-                    <h4><i class="fas fa-file-invoice"></i> Invoicing System</h4>
-                    <ul>
-                        <li>Customizable invoice templates</li>
-                        <li>Client management</li>
-                        <li>Payment tracking</li>
-                        <li>Automated payment reminders</li>
-                        <li>Online payment integration</li>
-                        <li>Recurring invoices</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Technical Considerations -->
-        <section class="technical-details">
-            <h3>Technical Considerations</h3>
-            <div class="tech-details-grid">
-                <div class="tech-detail-card">
-                    <h4><i class="fas fa-database"></i> Data Architecture</h4>
-                    <ul>
-                        <li>Multi-tenant database design</li>
-                        <li>Data isolation between businesses</li>
-                        <li>Report generation optimization</li>
-                        <li>Large dataset handling</li>
-                    </ul>
-                </div>
-                <div class="tech-detail-card">
-                    <h4><i class="fas fa-chart-line"></i> Analytics Engine</h4>
-                    <ul>
-                        <li>Real-time data processing</li>
-                        <li>Charting library integration</li>
-                        <li>Custom metric calculations</li>
-                        <li>Performance optimization</li>
-                    </ul>
-                </div>
-                <div class="tech-detail-card">
-                    <h4><i class="fas fa-mobile-alt"></i> Mobile Considerations</h4>
-                    <ul>
-                        <li>Complex UI for mobile devices</li>
-                        <li>Offline report generation</li>
-                        <li>Mobile receipt scanning</li>
-                        <li>Performance on older devices</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Navigation to Other Phases -->
-        <section class="phase-navigation">
-            <h3>Explore Other Phases</h3>
-            <div class="nav-cards">
-                <a href="phase2.html" class="nav-card back">
-                    <div class="nav-card-content">
-                        <span class="nav-label">Previous Phase</span>
-                        <h4>Phase 2: Data Management & Editing</h4>
-                        <p>Enhanced data manipulation and user experience</p>
-                        <span class="nav-status in-progress">In Progress</span>
-                    </div>
-                    <div class="nav-icon">
-                        <i class="fas fa-arrow-left"></i>
-                    </div>
-                </a>
-
-                <a href="phase4.html" class="nav-card next">
-                    <div class="nav-card-content">
-                        <span class="nav-label">Next Phase</span>
-                        <h4>Phase 4: Scaling & Platform Expansion</h4>
-                        <p>Growing the app ecosystem</p>
-                        <span class="nav-status future">Future</span>
-                    </div>
-                    <div class="nav-icon">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-            </div>
-
-            <div class="nav-home">
-                <a href="index.html" class="btn-secondary">
-                    <i class="fas fa-list"></i> View All Phases
-                </a>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
+    <!-- Footer (Full Width) -->
+    <footer class="site-footer full-width">
+        <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>My Business App</h4>
                     <p>Simplifying finance management for businesses</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Phase Status</h4>
-                    <p>Phase 3: Planned</p>
-                    <p>Last Updated: <span id="current-date">Loading...</span></p>
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="phase1.html">Phase 1</a></li>
+                        <li><a href="phase2.html">Phase 2</a></li>
+                        <li><a href="phase3.html">Phase 3</a></li>
+                        <li><a href="phase4.html">Phase 4</a></li>
+                    </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p>For feedback or suggestions</p>
-                    <a href="mailto:contact@mybusinessapp.com.ng" class="footer-link">
-                        <i class="fas fa-envelope"></i> contact@mybusinessapp.com.ng
-                    </a>
+                    <h4>Contact Us</h4>
+                    <p>Send us a message</p>
+
+                    <form id="footerContactForm" class="footer-contact-form">
+                        <div class="form-group">
+                            <input type="text" id="footerName" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="footerEmail" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="footerMessage" name="message" rows="3" placeholder="Your Message"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="footer-submit-btn">
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-loader" style="display: none;">Sending...</span>
+                        </button>
+                        <div class="form-status" style="display: none;"></div>
+                    </form>
+
+                    <div class="footer-contact-info">
+                        <p>Or email us directly:</p>
+                        <a href="mailto:mybusinessappa@gmail.com" class="footer-link">
+                            <i class="fas fa-envelope"></i> mybusinessappa@gmail.com
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; <span id="current-year"></span> My Business App. All rights reserved.</p>
-                <p>Roadmap version 1.0 | Status: Active Development</p>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
