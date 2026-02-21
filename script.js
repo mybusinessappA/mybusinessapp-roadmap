@@ -273,11 +273,19 @@ function forceDarkModeColors() {
     }
 }
 
-// Phase 4 - Partnership Form with Google Apps Script
+// Phase 4 - Partnership Form with Google Apps Script & Inline Status
 document.addEventListener('DOMContentLoaded', function() {
     const partnershipForm = document.getElementById('partnershipForm');
     
     if (partnershipForm) {
+        // Create status div if it doesn't exist
+        let statusDiv = partnershipForm.querySelector('.form-status');
+        if (!statusDiv) {
+            statusDiv = document.createElement('div');
+            statusDiv.className = 'form-status';
+            partnershipForm.appendChild(statusDiv);
+        }
+        
         partnershipForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -288,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 company: document.getElementById('company').value,
                 partnershipType: document.getElementById('partnershipType').value,
                 message: document.getElementById('message').value,
-                type: 'Partnership Inquiry', // To distinguish from contact form
+                type: 'Partnership Inquiry',
                 timestamp: new Date().toISOString()
             };
             
@@ -299,6 +307,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show loading state
             submitBtn.innerHTML = '<span class="button-icon">⏳</span> Sending...';
             submitBtn.disabled = true;
+            
+            // Clear and show status
+            statusDiv.className = 'form-status';
+            statusDiv.textContent = 'Sending your inquiry...';
+            statusDiv.style.display = 'block';
             
             // Prepare data for Google Apps Script
             const formBody = new URLSearchParams();
@@ -316,18 +329,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: formBody
             })
             .then(() => {
-                // Success (no-cors means we can't read response)
-                alert('Thank you for your partnership interest! We will contact you within 2-3 business days.');
+                // Success
+                statusDiv.className = 'form-status success';
+                statusDiv.textContent = 'Thank you! We will contact you within 2-3 business days.';
                 partnershipForm.reset();
             })
             .catch((error) => {
                 console.error('Error:', error);
-                alert('Failed to send. Please email us directly at mybusinessappa@gmail.com');
+                statusDiv.className = 'form-status error';
+                statusDiv.textContent = 'Failed to send. Please email us directly at mybusinessappa@gmail.com';
             })
             .finally(() => {
                 // Reset button
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
+                
+                // Hide status after 8 seconds
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 8000);
             });
         });
     }
