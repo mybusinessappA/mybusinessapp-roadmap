@@ -13,283 +13,208 @@
 </head>
 
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo-section">
-                <a href="index.html" class="logo-link">
+    <!-- Header (Full Width) -->
+    <header class="site-header full-width">
+        <div class="container">
+            <!-- Left Side: Logo + Text Group -->
+            <div class="header-left">
+                <div class="logo-group">
                     <div class="logo-placeholder">
                         <img src="assets/images/app-icon.png" alt="My Business App Logo">
                     </div>
-                    <div class="header-text">
+                    <div class="brand-text">
                         <h1>My Business App</h1>
                         <p class="subtitle">Finance Management Application</p>
                     </div>
-                </a>
+                </div>
             </div>
-            <div class="header-actions">
-                <a href="index.html" class="btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Back to Roadmap
-                </a>
-                <a href="https://mybusinessapp.com.ng" class="btn-primary" target="_blank">
-                    <i class="fas fa-external-link-alt"></i> Visit App
-                </a>
-            </div>
-        </header>
 
-        <!-- Phase Header -->
-        <section class="phase-header-detail">
-            <div class="phase-status-header future">
-                <div class="phase-header-content">
-                    <span class="phase-category">Phase 4</span>
-                    <h2>Scaling & Platform Expansion</h2>
-                    <p class="phase-desc">Growing the app ecosystem and expanding to new platforms to reach more users
-                        and provide comprehensive solutions.</p>
-                    <div class="phase-meta">
-                        <div class="meta-item">
-                            <i class="fas fa-star"></i>
-                            <span>Status: <strong>Future Planning</strong></span>
+            <!-- Center: Navigation Tabs -->
+            <nav class="header-nav">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="phase1.html" class="nav-link">Phase 1</a></li>
+                    <li><a href="phase2.html" class="nav-link">Phase 2</a></li>
+                    <li><a href="phase3.html" class="nav-link">Phase 3</a></li>
+                    <li><a href="phase4.html" class="nav-link">Support us</a></li>
+                </ul>
+            </nav>
+
+            <!-- Right Side: Theme Toggle + Download -->
+            <div class="header-right">
+                <button id="theme-toggle" class="btn-icon" title="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="phase1.html" class="btn-primary btn-small">
+                    <i class="fas fa-download"></i> Download
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Phase 4: Support the Project -->
+        <section class="phase4-section">
+            <div class="container">
+                <!-- Header -->
+                <div class="phase4-header">
+                    <h1>Support My Business App</h1>
+                    <p class="phase4-subtitle">Help us continue building tools that empower individuals and businesses
+                        worldwide</p>
+                </div>
+
+                <!-- Two Options Grid -->
+                <div class="support-grid">
+
+                    <!-- Option 1: Free Will Donation -->
+                    <div class="support-card donation-card">
+                        <div class="card-accent"></div>
+                        <div class="support-icon">❤️</div>
+                        <h2>Make a Donation</h2>
+                        <p class="support-description">Support the project with any amount of your choice. Every
+                            contribution helps us improve and add new features.</p>
+
+                        <div class="impact-message">
+                            <p>Your support helps us:</p>
+                            <ul>
+                                <li>✓ Maintain and improve the app</li>
+                                <li>✓ Add new features faster</li>
+                                <li>✓ Provide better support</li>
+                                <li>✓ Keep the app accessible to all</li>
+                            </ul>
                         </div>
-                        <div class="meta-item">
-                            <i class="fas fa-lightbulb"></i>
-                            <span>Features: <strong>4 future ideas</strong></span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="fas fa-calendar"></i>
-                            <span>Timeline: <strong>2025 & Beyond</strong></span>
-                        </div>
-                        <div class="meta-item">
-                            <i class="fas fa-users"></i>
-                            <span>Focus: <strong>Growth & Expansion</strong></span>
+
+                        <div class="donation-cta">
+                            <a href="https://flutterwave.com/donate/seuvcnh0n2bm" target="_blank" class="donate-button">
+                                <span class="button-icon">💚</span>
+                                Donate Now
+                            </a>
+                            <p class="secure-note">🔒 Secure payment via Flutterwave</p>
                         </div>
                     </div>
-                </div>
-                <div class="phase-header-icon">
-                    <i class="fas fa-star"></i>
-                </div>
-            </div>
-        </section>
 
-        <!-- Features List -->
-        <section class="phase-features">
-            <h3>Future Expansion Ideas</h3>
-            <div class="features-grid">
-                <div class="feature-card future">
-                    <div class="feature-icon">
-                        <i class="fab fa-apple"></i>
-                    </div>
-                    <h4>iOS Version Development</h4>
-                    <p>Native iOS application for iPhone and iPad users, built with Swift/SwiftUI for optimal
-                        performance and Apple ecosystem integration.</p>
-                    <div class="feature-tags">
-                        <span class="tag">iOS</span>
-                        <span class="tag">Cross-platform</span>
-                        <span class="tag">Future</span>
-                    </div>
-                    <div class="feature-impact">
-                        <span class="impact high">High Impact</span>
-                    </div>
-                </div>
+                    <!-- Option 2: Become a Partner -->
+                    <div class="support-card partnership-card">
+                        <div class="card-accent"></div>
+                        <div class="support-icon">🤝</div>
+                        <h2>Become a Partner</h2>
+                        <p class="support-description">Interested in partnering with us? Let's work together to create
+                            more opportunities.</p>
 
-                <div class="feature-card future">
-                    <div class="feature-icon">
-                        <i class="fas fa-desktop"></i>
-                    </div>
-                    <h4>Web Dashboard Version</h4>
-                    <p>Full-featured web application for desktop access with enhanced reporting, data visualization, and
-                        bulk operations.</p>
-                    <div class="feature-tags">
-                        <span class="tag">Web</span>
-                        <span class="tag">Dashboard</span>
-                        <span class="tag">Future</span>
-                    </div>
-                    <div class="feature-impact">
-                        <span class="impact high">High Impact</span>
-                    </div>
-                </div>
+                        <div class="partnership-benefits">
+                            <p>Partnership opportunities:</p>
+                            <ul>
+                                <li>✓ Corporate sponsorship</li>
+                                <li>✓ Strategic partnership</li>
+                                <li>✓ Feature collaboration</li>
+                                <li>✓ Community impact</li>
+                            </ul>
+                        </div>
 
-                <div class="feature-card future">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h4>Team Collaboration Features</h4>
-                    <p>Multi-user access with role-based permissions, team management, audit trails, and collaborative
-                        financial management.</p>
-                    <div class="feature-tags">
-                        <span class="tag">Collaboration</span>
-                        <span class="tag">Teams</span>
-                        <span class="tag">Future</span>
-                    </div>
-                    <div class="feature-impact">
-                        <span class="impact medium">Medium Impact</span>
+                        <!-- Partnership Contact Form -->
+                        <form class="partnership-form" id="partnershipForm">
+                            <div class="form-group">
+                                <input type="text" id="name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="email" placeholder="Email Address" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="company" placeholder="Company/Organization">
+                            </div>
+                            <div class="form-group">
+                                <select id="partnershipType" required>
+                                    <option value="" disabled selected>Partnership Type</option>
+                                    <option value="corporate">Corporate Sponsorship</option>
+                                    <option value="strategic">Strategic Partner</option>
+                                    <option value="investor">Investor</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="message" rows="4" placeholder="Tell us about your partnership interest..."
+                                    required></textarea>
+                            </div>
+                            <button type="submit" class="submit-button">
+                                <span class="button-icon">📩</span>
+                                Send Inquiry
+                            </button>
+                        </form>
+                        <p class="form-note">We'll respond within 2-3 business days</p>
                     </div>
                 </div>
 
-                <div class="feature-card future">
-                    <div class="feature-icon">
-                        <i class="fas fa-plug"></i>
+                <!-- Thank You Message -->
+                <div class="thank-you-section">
+                    <div class="thank-you-content">
+                        <h3>Thank You for Supporting Us</h3>
+                        <p>Whether you donate or partner with us, you're helping us build better financial tools for
+                            everyone.</p>
+                        <div class="heart-line">💚 💚 💚</div>
                     </div>
-                    <h4>API for Third-party Integrations</h4>
-                    <p>Public REST API for developers to build integrations with accounting software, payment gateways,
-                        and other business tools.</p>
-                    <div class="feature-tags">
-                        <span class="tag">API</span>
-                        <span class="tag">Integration</span>
-                        <span class="tag">Future</span>
-                    </div>
-                    <div class="feature-impact">
-                        <span class="impact medium">Medium Impact</span>
-                    </div>
+                </div>
+
+                <!-- FAQ or Additional Info -->
+                <div class="support-footer">
+                    <p>Questions about supporting us? <a class="contact-link">Contact us directly</a></p>
                 </div>
             </div>
         </section>
+    </div>
 
-        <!-- Expansion Vision -->
-        <section class="expansion-vision">
-            <h3>Expansion Vision & Strategy</h3>
-            <div class="vision-cards">
-                <div class="vision-card">
-                    <div class="vision-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h4>Platform Diversity</h4>
-                    <p>Expand from Android-only to multi-platform support, reaching iOS users and desktop users for
-                        complete accessibility.</p>
-                    <ul>
-                        <li>iOS app using native technologies</li>
-                        <li>Progressive Web App (PWA) for web</li>
-                        <li>Cross-platform code sharing strategy</li>
-                    </ul>
-                </div>
-
-                <div class="vision-card">
-                    <div class="vision-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <h4>Ecosystem Growth</h4>
-                    <p>Build an ecosystem around the app with integrations, partnerships, and extended functionality.
-                    </p>
-                    <ul>
-                        <li>API for third-party developers</li>
-                        <li>Integration marketplace</li>
-                        <li>Partner programs for accountants</li>
-                    </ul>
-                </div>
-
-                <div class="vision-card">
-                    <div class="vision-icon">
-                        <i class="fas fa-rocket"></i>
-                    </div>
-                    <h4>Scalability Focus</h4>
-                    <p>Architectural improvements to support larger user bases, more data, and enterprise-level
-                        features.</p>
-                    <ul>
-                        <li>Microservices architecture</li>
-                        <li>Advanced caching strategies</li>
-                        <li>Enterprise security features</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Technical Roadmap -->
-        <section class="technical-details">
-            <h3>Technical Expansion Roadmap</h3>
-            <div class="tech-details-grid">
-                <div class="tech-detail-card">
-                    <h4><i class="fab fa-apple"></i> iOS Development</h4>
-                    <ul>
-                        <li>Swift/SwiftUI native development</li>
-                        <li>Apple App Store deployment</li>
-                        <li>iCloud synchronization</li>
-                        <li>Apple Pay integration</li>
-                        <li>iPad optimized interface</li>
-                    </ul>
-                </div>
-                <div class="tech-detail-card">
-                    <h4><i class="fas fa-code"></i> Web Development</h4>
-                    <ul>
-                        <li>React or Vue.js frontend</li>
-                        <li>Responsive design framework</li>
-                        <li>Enhanced data visualization</li>
-                        <li>Real-time collaboration features</li>
-                        <li>Progressive Web App capabilities</li>
-                    </ul>
-                </div>
-                <div class="tech-detail-card">
-                    <h4><i class="fas fa-server"></i> Backend Scaling</h4>
-                    <ul>
-                        <li>API gateway implementation</li>
-                        <li>Rate limiting and throttling</li>
-                        <li>Advanced monitoring and analytics</li>
-                        <li>Multi-region deployment</li>
-                        <li>Disaster recovery planning</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Navigation to Other Phases -->
-        <section class="phase-navigation">
-            <h3>Explore Other Phases</h3>
-            <div class="nav-cards">
-                <a href="phase3.html" class="nav-card back">
-                    <div class="nav-card-content">
-                        <span class="nav-label">Previous Phase</span>
-                        <h4>Phase 3: Advanced Features</h4>
-                        <p>Advanced analytics and business tools</p>
-                        <span class="nav-status planned">Planned</span>
-                    </div>
-                    <div class="nav-icon">
-                        <i class="fas fa-arrow-left"></i>
-                    </div>
-                </a>
-
-                <a href="index.html" class="nav-card next">
-                    <div class="nav-card-content">
-                        <span class="nav-label">Back to Overview</span>
-                        <h4>Roadmap Home</h4>
-                        <p>Complete development timeline</p>
-                    </div>
-                    <div class="nav-icon">
-                        <i class="fas fa-home"></i>
-                    </div>
-                </a>
-            </div>
-
-            <div class="nav-home">
-                <a href="index.html" class="btn-secondary">
-                    <i class="fas fa-list"></i> View All Phases
-                </a>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
+    <!-- Footer (Full Width) -->
+    <footer class="site-footer full-width">
+        <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>My Business App</h4>
                     <p>Simplifying finance management for businesses</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Phase Status</h4>
-                    <p>Phase 4: Future Planning</p>
-                    <p>Last Updated: <span id="current-date">Loading...</span></p>
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="phase1.html">Phase 1</a></li>
+                        <li><a href="phase2.html">Phase 2</a></li>
+                        <li><a href="phase3.html">Phase 3</a></li>
+                        <li><a href="phase4.html">Phase 4</a></li>
+                    </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Contact</h4>
-                    <p>For feedback or suggestions</p>
-                    <a href="mailto:contact@mybusinessapp.com.ng" class="footer-link">
-                        <i class="fas fa-envelope"></i> contact@mybusinessapp.com.ng
-                    </a>
+                    <h4>Contact Us</h4>
+                    <p>Send us a message</p>
+
+                    <form id="footerContactForm" class="footer-contact-form">
+                        <div class="form-group">
+                            <input type="text" id="footerName" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="footerEmail" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="footerMessage" name="message" rows="3" placeholder="Your Message"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="footer-submit-btn">
+                            <span class="btn-text">Send Message</span>
+                            <span class="btn-loader" style="display: none;">Sending...</span>
+                        </button>
+                        <div class="form-status" style="display: none;"></div>
+                    </form>
+
+                    <div class="footer-contact-info">
+                        <p>Or email us directly:</p>
+                        <a href="mailto:mybusinessappa@gmail.com" class="footer-link">
+                            <i class="fas fa-envelope"></i> mybusinessappa@gmail.com
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; <span id="current-year"></span> My Business App. All rights reserved.</p>
-                <p>Roadmap version 1.0 | Status: Active Development</p>
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
