@@ -4947,3 +4947,97 @@ body[data-theme="dark"] .footer-contact-info p {
         display: block !important;
     }
 }
+
+/* Section 3 - CTA/Download section */
+.cta-section {
+    background-color: #005826 !important;
+    color: #ffffff !important;
+}
+
+.cta-section .btn-primary,
+.cta-section .btn-large,
+.cta-section [class*="btn"] {
+    background-color: #ffffff !important;
+    color: #005826 !important;
+    border: none !important;
+}
+
+/* Optional: Add hover effect for the button */
+.cta-section .btn-primary:hover,
+.cta-section .btn-large:hover,
+.cta-section [class*="btn"]:hover {
+    background-color: #f0f0f0 !important;
+    color: #004020 !important;
+}
+
+/* Phase 1 page specific fixes - for splash screen only */
+.phase1-page .phone-screen {
+    width: 100% !important;
+    height: auto !important;
+    min-width: 200px !important;
+    min-height: 400px !important;
+}
+
+.phase1-page .phone-screen img.screen-image.active {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 300px !important;
+    display: block !important;
+    margin: 0 auto !important;
+}
+
+/* Phase 3 Mobile Fixes */
+@media screen and (max-width: 768px) {
+    /* Device mockups */
+    .device-mockup.iphone {
+        width: 100% !important;
+        max-width: 180px !important;
+        margin: 10px auto !important;
+    }
+    
+    .device-mockup.ipad {
+        width: 100% !important;
+        max-width: 200px !important;
+        margin: 10px auto !important;
+    }
+    
+    /* App Store badge - capsule style */
+    .app-store-badge {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: auto !important;
+        min-width: 140px !important;
+        max-width: 180px !important;
+        padding: 8px 16px !important;
+        border-radius: 30px !important;
+        background: #000 !important;
+        color: white !important;
+        margin: 5px auto !important;
+    }
+    
+    .app-store-badge .badge-content {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        flex-wrap: nowrap !important;
+    }
+    
+    .app-store-badge .small-text {
+        font-size: 10px !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+    }
+    
+    .app-store-badge .store-name {
+        font-size: 14px !important;
+        font-weight: bold !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+    }
+    
+    .app-store-badge .apple-icon {
+        font-size: 20px !important;
+        margin-right: 4px !important;
+    }
+}
