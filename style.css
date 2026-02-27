@@ -2655,8 +2655,8 @@ body.dark-mode [class*="carousel-section"] {
 /* Section 4 Buttons - Light Mode */
 [data-theme="light"] .phase-cta.full-width .btn-primary,
 [data-theme="light"] .phase-cta.full-width .btn-secondary {
-    background: linear-gradient(135deg, #005826 0%, #00a86b 100%) !important;
-    color: white !important;
+    background: linear-gradient(135deg, #eff1f0 0%, #eff1f0 100%) !important;
+    color: #005826 !important;
     border: none !important;
 }
 
@@ -5041,3 +5041,4 @@ body[data-theme="dark"] .footer-contact-info p {
         margin-right: 4px !important;
     }
 }
+
