@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phase 4: Scaling & Platform Expansion - My Business App Roadmap</title>
+    <title>Phase 4: Scaling & Platform Expansion - My Finance App Roadmap</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
@@ -20,10 +20,10 @@
             <div class="header-left">
                 <div class="logo-group">
                     <div class="logo-placeholder">
-                        <img src="assets/images/app-icon.png" alt="My Business App Logo">
+                        <img src="assets/images/app-icon.png" alt="My Finance App Logo">
                     </div>
                     <div class="brand-text">
-                        <h1>My Business App</h1>
+                        <h1>My Finance App</h1>
                         <p class="subtitle">Finance Management Application</p>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                     <li><a href="phase1.html" class="nav-link">Phase 1</a></li>
                     <li><a href="phase2.html" class="nav-link">Phase 2</a></li>
                     <li><a href="phase3.html" class="nav-link">Phase 3</a></li>
-                    <li><a href="phase4.html" class="nav-link">Partner with us</a></li>
+                    <li><a href="phase4.html" class="nav-link">Phase 4</a></li>
                 </ul>
             </nav>
 
@@ -61,105 +61,41 @@
             <div class="container">
                 <!-- Header -->
                 <div class="phase4-header">
-                    <h1>Support My Business App</h1>
-                    <p class="phase4-subtitle">Help us continue building tools that empower individuals and businesses
-                        worldwide</p>
+                    <h1>Phase 4: Monetization & Partners</h1>
+                    <p class="phase4-subtitle">Launch revenue streams and scale with partners</p>
                 </div>
 
-                <!-- Two Options Grid -->
-                <div class="support-grid">
+                <!-- Monetization Grid -->
+                <div class="monetization-grid"
+                    style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin:2rem 0">
 
-                    <!-- Option 1: Free Will Donation -->
-                    <div class="support-card donation-card">
-                        <div class="card-accent"></div>
-                        <div class="support-icon">❤️</div>
-                        <h2>Make a Donation</h2>
-                        <p class="support-description">Support the project with any amount of your choice. Every
-                            contribution helps us improve and add new features.</p>
-
-                        <div class="impact-message">
-                            <p>Your support helps us:</p>
-                            <ul>
-                                <li>✓ Maintain and improve the app</li>
-                                <li>✓ Add new features faster</li>
-                                <li>✓ Provide better support</li>
-                                <li>✓ Keep the app accessible to all</li>
-                            </ul>
-                        </div>
-
-                        <div class="donation-cta">
-                            <a href="https://flutterwave.com/donate/seuvcnh0n2bm" target="_blank" class="donate-button">
-                                <span class="button-icon">💚</span>
-                                Donate Now
-                            </a>
-                            <p class="secure-note">🔒 Secure payment via Flutterwave</p>
-                        </div>
+                    <div class="monetization-card" style="background:#f9f9f9;padding:1.5rem;border-radius:12px">
+                        <h3>💰 Subscription</h3>
+                        <p>Recurring revenue from premium tiers</p>
                     </div>
 
-                    <!-- Option 2: Become a Partner -->
-                    <div class="support-card partnership-card">
-                        <div class="card-accent"></div>
-                        <div class="support-icon">🤝</div>
-                        <h2>Become a Partner</h2>
-                        <p class="support-description">Interested in partnering with us? Let's work together to create
-                            more opportunities.</p>
-
-                        <div class="partnership-benefits">
-                            <p>Partnership opportunities:</p>
-                            <ul>
-                                <li>✓ Corporate sponsorship</li>
-                                <li>✓ Strategic partnership</li>
-                                <li>✓ Feature collaboration</li>
-                                <li>✓ Community impact</li>
-                            </ul>
-                        </div>
-
-                        <!-- Partnership Contact Form -->
-                        <form class="partnership-form" id="partnershipForm">
-                            <div class="form-group">
-                                <input type="text" id="name" placeholder="Your Name" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" id="email" placeholder="Email Address" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" id="company" placeholder="Company/Organization">
-                            </div>
-                            <div class="form-group">
-                                <select id="partnershipType" required>
-                                    <option value="" disabled selected>Partnership Type</option>
-                                    <option value="corporate">Corporate Sponsorship</option>
-                                    <option value="strategic">Strategic Partner</option>
-                                    <option value="investor">Investor</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <textarea id="message" rows="4" placeholder="Tell us about your partnership interest..."
-                                    required></textarea>
-                            </div>
-                            <button type="submit" class="submit-button">
-                                <span class="button-icon">📩</span>
-                                Send Inquiry
-                            </button>
-                        </form>
-                        <p class="form-note">We'll respond within 2-3 business days</p>
+                    <div class="monetization-card" style="background:#f9f9f9;padding:1.5rem;border-radius:12px">
+                        <h3>🤝 Partner Commission</h3>
+                        <p>Earn from investment platforms listing opportunities</p>
                     </div>
+
+                    <div class="monetization-card" style="background:#f9f9f9;padding:1.5rem;border-radius:12px">
+                        <h3>🔌 Stripe Integration</h3>
+                        <p>Secure payment gateway ready</p>
+                    </div>
+
+                    <div class="monetization-card" style="background:#f9f9f9;padding:1.5rem;border-radius:12px">
+                        <h3>🏷️ White-label Licensing</h3>
+                        <p>Sell rebranded version to other businesses</p>
+                    </div>
+
                 </div>
 
-                <!-- Thank You Message -->
-                <div class="thank-you-section">
-                    <div class="thank-you-content">
-                        <h3>Thank You for Supporting Us</h3>
-                        <p>Whether you donate or partner with us, you're helping us build better financial tools for
-                            everyone.</p>
-                        <div class="heart-line">💚 💚 💚</div>
-                    </div>
-                </div>
-
-                <!-- FAQ or Additional Info -->
-                <div class="support-footer">
-                    <p>Questions about supporting us? <a class="contact-link">Contact us directly</a></p>
+                <!-- Partner Onboarding -->
+                <div class="partner-section"
+                    style="background:#e8f5e9;padding:1.5rem;border-radius:12px;margin:1rem 0;text-align:center">
+                    <h3>📋 Partner Onboarding Ready</h3>
+                    <p>Allow investment platforms and financial partners to list opportunities in-app</p>
                 </div>
             </div>
         </section>
@@ -170,7 +106,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>My Business App</h4>
+                    <h4>My Finance App</h4>
                     <p>Simplifying finance management for businesses</p>
                 </div>
                 <div class="footer-section">
@@ -214,7 +150,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; <span id="current-year"></span> My Business App. All rights reserved.</p>
+                <p>&copy; <span id="current-year"></span> My Finance App. All rights reserved.</p>
             </div>
         </div>
     </footer>
