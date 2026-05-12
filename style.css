@@ -4988,19 +4988,20 @@ body[data-theme="dark"] .footer-contact-info p {
 
 /* Phase 3 Mobile Fixes */
 @media screen and (max-width: 768px) {
+
     /* Device mockups */
     .device-mockup.iphone {
         width: 100% !important;
         max-width: 180px !important;
         margin: 10px auto !important;
     }
-    
+
     .device-mockup.ipad {
         width: 100% !important;
         max-width: 200px !important;
         margin: 10px auto !important;
     }
-    
+
     /* App Store badge - capsule style */
     .app-store-badge {
         display: inline-flex !important;
@@ -5015,30 +5016,41 @@ body[data-theme="dark"] .footer-contact-info p {
         color: white !important;
         margin: 5px auto !important;
     }
-    
+
     .app-store-badge .badge-content {
         display: flex !important;
         align-items: center !important;
         gap: 8px !important;
         flex-wrap: nowrap !important;
     }
-    
+
     .app-store-badge .small-text {
         font-size: 10px !important;
         line-height: 1 !important;
         white-space: nowrap !important;
     }
-    
+
     .app-store-badge .store-name {
         font-size: 14px !important;
         font-weight: bold !important;
         line-height: 1 !important;
         white-space: nowrap !important;
     }
-    
+
     .app-store-badge .apple-icon {
         font-size: 20px !important;
         margin-right: 4px !important;
     }
 }
 
+.dark-mode .monetization-card,
+[data-theme="dark"] .monetization-card {
+    background: #1e2a1e !important;
+    color: #fff;
+}
+
+.dark-mode .partner-section,
+[data-theme="dark"] .partner-section {
+    background: #1a2e1a !important;
+    color: #fff;
+}
