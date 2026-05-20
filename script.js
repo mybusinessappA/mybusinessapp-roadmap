@@ -631,7 +631,7 @@ async function verifyChatEmail(email) {
             console.error('Push setup failed:', error);
         }
     }
-    
+
     localStorage.setItem('chat_user_email', chatCurrentUser.email);
 
     chatEmailScreen.classList.add('hidden');
