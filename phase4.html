@@ -155,6 +155,51 @@
         </div>
     </footer>
 
+    <!-- Chat Icon -->
+    <div id="chatIcon" class="chat-icon">
+        <i class="fas fa-comment-dots"></i>
+    </div>
+
+    <!-- Chat Modal -->
+    <div id="chatModal" class="chat-modal hidden">
+        <div class="chat-modal-content">
+            <div class="chat-modal-header">
+                <span>Live Finance Chat</span>
+                <button id="closeChatBtn" class="chat-close-btn">&times;</button>
+            </div>
+            <div id="chatModalBody">
+                <!-- Email input screen (initial) -->
+                <div id="chatEmailScreen" class="chat-email-screen">
+                    <p>Enter your email to start chatting</p>
+                    <input type="email" id="chatEmailInput" placeholder="your@email.com" class="chat-input">
+                    <button id="chatVerifyBtn" class="btn-primary">Continue</button>
+                    <div id="chatEmailError" class="form-status"></div>
+                </div>
+
+                <!-- Chat interface (hidden until verified) -->
+                <div id="chatInterface" class="hidden">
+                    <div class="chat-current-user">
+                        <span id="chatCurrentUserEmail"></span>
+                        <button id="chatSwitchAccountBtn" class="btn-small">Switch</button>
+                    </div>
+                    <div class="chat-search-area">
+                        <input type="text" id="chatSearchInput" placeholder="Search user by email..."
+                            class="chat-input">
+                        <div id="chatSearchResults" class="chat-search-results"></div>
+                    </div>
+                    <div id="chatConversationList" class="chat-conversation-list"></div>
+                    <div id="chatMessagesArea" class="hidden">
+                        <div id="chatMessagesContainer" class="chat-messages-container"></div>
+                        <div class="chat-message-input-area">
+                            <input type="text" id="chatMessageInput" placeholder="Type a message..." class="chat-input">
+                            <button id="chatSendBtn" class="btn-primary">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 
