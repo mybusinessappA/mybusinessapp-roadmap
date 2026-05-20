@@ -533,29 +533,36 @@ if (typeof supabase === 'undefined') {
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdlYnFvcm5xdXFjcmVhbmd1bW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwNjg1NTAsImV4cCI6MjA4NDY0NDU1MH0.7tOO6yQCBGqsg1V6cS5k5w652yt4BNtZIxQ2iojR_Lk';
         window.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         console.log('Supabase loaded');
+
+        // ✅ Call initChat AFTER Supabase is ready
+        initChat();
     };
     document.head.appendChild(script);
+} else {
+    initChat();
 }
 
-let chatCurrentUser = null;
-let chatCurrentConversation = null;
-let chatMessagesSubscription = null;
+function initChat() {
+    let chatCurrentUser = null;
+    let chatCurrentConversation = null;
+    let chatMessagesSubscription = null;
 
-// DOM elements
-const chatEmailScreen = document.getElementById('chatEmailScreen');
-const chatInterface = document.getElementById('chatInterface');
-const chatEmailInput = document.getElementById('chatEmailInput');
-const chatVerifyBtn = document.getElementById('chatVerifyBtn');
-const chatEmailError = document.getElementById('chatEmailError');
-const chatCurrentUserEmailSpan = document.getElementById('chatCurrentUserEmail');
-const chatSwitchAccountBtn = document.getElementById('chatSwitchAccountBtn');
-const chatSearchInput = document.getElementById('chatSearchInput');
-const chatSearchResults = document.getElementById('chatSearchResults');
-const chatConversationList = document.getElementById('chatConversationList');
-const chatMessagesArea = document.getElementById('chatMessagesArea');
-const chatMessagesContainer = document.getElementById('chatMessagesContainer');
-const chatMessageInput = document.getElementById('chatMessageInput');
-const chatSendBtn = document.getElementById('chatSendBtn');
+    // DOM elements
+    const chatEmailScreen = document.getElementById('chatEmailScreen');
+    const chatInterface = document.getElementById('chatInterface');
+    const chatEmailInput = document.getElementById('chatEmailInput');
+    const chatVerifyBtn = document.getElementById('chatVerifyBtn');
+    const chatEmailError = document.getElementById('chatEmailError');
+    const chatCurrentUserEmailSpan = document.getElementById('chatCurrentUserEmail');
+    const chatSwitchAccountBtn = document.getElementById('chatSwitchAccountBtn');
+    const chatSearchInput = document.getElementById('chatSearchInput');
+    const chatSearchResults = document.getElementById('chatSearchResults');
+    const chatConversationList = document.getElementById('chatConversationList');
+    const chatMessagesArea = document.getElementById('chatMessagesArea');
+    const chatMessagesContainer = document.getElementById('chatMessagesContainer');
+    const chatMessageInput = document.getElementById('chatMessageInput');
+    const chatSendBtn = document.getElementById('chatSendBtn');
+}
 
 // Check saved user
 const savedChatEmail = localStorage.getItem('chat_user_email');
