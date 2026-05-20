@@ -504,3 +504,354 @@ document.addEventListener('DOMContentLoaded', function () {
 
     console.log('Menu fix complete');
 })();
+
+// ============ CHAT SYSTEM 1 ============
+const chatIcon = document.getElementById('chatIcon');
+const chatModal = document.getElementById('chatModal');
+const closeChatBtn = document.getElementById('closeChatBtn');
+
+chatIcon.addEventListener('click', () => {
+    if (chatModal.classList.contains('hidden')) {
+        chatModal.classList.remove('hidden');
+    } else {
+        chatModal.classList.add('hidden');
+    }
+});
+
+closeChatBtn.addEventListener('click', () => {
+    chatModal.classList.add('hidden');
+});
+
+// ============ CHAT SYSTEM ============
+
+// Dynamically load Supabase
+if (typeof supabase === 'undefined') {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    script.onload = function () {
+        const SUPABASE_URL = 'https://gebqornquqcreangumol.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdlYnFvcm5xdXFjcmVhbmd1bW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwNjg1NTAsImV4cCI6MjA4NDY0NDU1MH0.7tOO6yQCBGqsg1V6cS5k5w652yt4BNtZIxQ2iojR_Lk';
+        window.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        console.log('Supabase loaded');
+    };
+    document.head.appendChild(script);
+}
+
+let chatCurrentUser = null;
+let chatCurrentConversation = null;
+let chatMessagesSubscription = null;
+
+// DOM elements
+const chatEmailScreen = document.getElementById('chatEmailScreen');
+const chatInterface = document.getElementById('chatInterface');
+const chatEmailInput = document.getElementById('chatEmailInput');
+const chatVerifyBtn = document.getElementById('chatVerifyBtn');
+const chatEmailError = document.getElementById('chatEmailError');
+const chatCurrentUserEmailSpan = document.getElementById('chatCurrentUserEmail');
+const chatSwitchAccountBtn = document.getElementById('chatSwitchAccountBtn');
+const chatSearchInput = document.getElementById('chatSearchInput');
+const chatSearchResults = document.getElementById('chatSearchResults');
+const chatConversationList = document.getElementById('chatConversationList');
+const chatMessagesArea = document.getElementById('chatMessagesArea');
+const chatMessagesContainer = document.getElementById('chatMessagesContainer');
+const chatMessageInput = document.getElementById('chatMessageInput');
+const chatSendBtn = document.getElementById('chatSendBtn');
+
+// Check saved user
+const savedChatEmail = localStorage.getItem('chat_user_email');
+if (savedChatEmail) {
+    chatEmailInput.value = savedChatEmail;
+    verifyChatEmail(savedChatEmail);
+}
+
+chatVerifyBtn.addEventListener('click', () => {
+    const email = chatEmailInput.value.trim().toLowerCase();
+    if (!email) {
+        chatEmailError.textContent = 'Please enter an email address';
+        return;
+    }
+    verifyChatEmail(email);
+});
+
+async function verifyChatEmail(email) {
+    chatEmailError.textContent = '';
+
+    const { data, error } = await supabase
+        .from('profiles')
+        .select('id, email')
+        .eq('email', email)
+        .single();
+
+    if (error || !data) {
+        chatEmailError.innerHTML = 'User not registered, kindly <a href="#" id="chatDownloadLink">download the app and register</a>';
+        document.getElementById('chatDownloadLink')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            alert('Redirect to app download page');
+        });
+        return;
+    }
+
+    chatCurrentUser = { id: data.id, email: data.email };
+    // Request push notification permission
+    if ('Notification' in window) {
+        Notification.requestPermission();
+    }
+
+    // Register service worker and subscribe to push
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+        try {
+            const registration = await navigator.serviceWorker.register('/sw.js');
+            console.log('Service Worker registered');
+
+            const vapidPublicKey = 'BASVduVa-1sqezTxaF7BlpGjSvPsduCLcbs2Qhn175wsACxRsQnDvgtazC2QpGEPDmQkY1-nOHpcmkqqnm2dKgU';
+
+            const subscription = await registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: vapidPublicKey
+            });
+
+            // Save subscription to Supabase
+            await supabase.from('push_subscriptions').upsert({
+                user_id: chatCurrentUser.id,
+                endpoint: subscription.endpoint,
+                p256dh: btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('p256dh')))),
+                auth: btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('auth')))),
+                updated_at: new Date().toISOString()
+            });
+
+            console.log('Push subscription saved');
+        } catch (error) {
+            console.error('Push setup failed:', error);
+        }
+    }
+    
+    localStorage.setItem('chat_user_email', chatCurrentUser.email);
+
+    chatEmailScreen.classList.add('hidden');
+    chatInterface.classList.remove('hidden');
+    chatCurrentUserEmailSpan.textContent = chatCurrentUser.email;
+
+    loadChatConversations();
+    setupChatSearch();
+}
+
+function setupChatSearch() {
+    let debounceTimer;
+    chatSearchInput.addEventListener('input', (e) => {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            const query = e.target.value.trim().toLowerCase();
+            if (query.length < 2) {
+                chatSearchResults.innerHTML = '';
+                return;
+            }
+            searchChatUsers(query);
+        }, 300);
+    });
+}
+
+async function searchChatUsers(query) {
+    const { data, error } = await supabase
+        .from('profiles')
+        .select('id, email')
+        .ilike('email', `%${query}%`)
+        .neq('id', chatCurrentUser.id)
+        .limit(10);
+
+    if (error || data.length === 0) {
+        chatSearchResults.innerHTML = '<div class="user-item">No users found</div>';
+        return;
+    }
+
+    chatSearchResults.innerHTML = data.map(user => `
+        <div class="user-item" data-user-id="${user.id}" data-user-email="${user.email}">
+            <div class="user-email">${user.email}</div>
+            <div style="font-size:12px;color:#666;">Click to start conversation</div>
+        </div>
+    `).join('');
+
+    document.querySelectorAll('#chatSearchResults .user-item').forEach(el => {
+        el.addEventListener('click', () => {
+            startChatConversation(el.dataset.userId, el.dataset.userEmail);
+        });
+    });
+}
+
+async function startChatConversation(otherUserId, otherUserEmail) {
+    // Check existing conversation
+    const { data: existingConv } = await supabase
+        .from('participants')
+        .select('conversation_id')
+        .eq('user_id', chatCurrentUser.id);
+
+    if (existingConv && existingConv.length > 0) {
+        const convIds = existingConv.map(p => p.conversation_id);
+        const { data: matching } = await supabase
+            .from('participants')
+            .select('conversation_id')
+            .eq('user_id', otherUserId)
+            .in('conversation_id', convIds);
+
+        if (matching && matching.length > 0) {
+            chatCurrentConversation = matching[0].conversation_id;
+            loadChatMessages(chatCurrentConversation);
+            chatSearchResults.innerHTML = '';
+            chatSearchInput.value = '';
+            return;
+        }
+    }
+
+    // Create new conversation
+    const { data: newConv, error } = await supabase
+        .from('conversations')
+        .insert({})
+        .select()
+        .single();
+
+    if (error) return;
+
+    await supabase.from('participants').insert([
+        { conversation_id: newConv.id, user_id: chatCurrentUser.id },
+        { conversation_id: newConv.id, user_id: otherUserId }
+    ]);
+
+    chatCurrentConversation = newConv.id;
+    loadChatMessages(chatCurrentConversation);
+    loadChatConversations();
+    chatSearchResults.innerHTML = '';
+    chatSearchInput.value = '';
+}
+
+async function loadChatConversations() {
+    const { data, error } = await supabase
+        .from('participants')
+        .select(`
+            conversation_id,
+            conversations (
+                id,
+                messages (id, content, created_at, sender_id, read_at)
+            )
+        `)
+        .eq('user_id', chatCurrentUser.id);
+
+    if (error || !data || data.length === 0) {
+        chatConversationList.innerHTML = '<div style="padding:20px;text-align:center;color:#666;">No conversations yet. Search for users above.</div>';
+        return;
+    }
+
+    const conversations = data.map(p => {
+        const conv = p.conversations;
+        const messages = conv?.messages || [];
+        const lastMessage = messages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+        const unreadCount = messages.filter(m => m.sender_id !== chatCurrentUser.id && !m.read_at).length;
+        return {
+            id: conv.id,
+            lastMessage: lastMessage?.content || 'No messages yet',
+            lastMessageTime: lastMessage?.created_at,
+            unreadCount
+        };
+    }).sort((a, b) => new Date(b.lastMessageTime) - new Date(a.lastMessageTime));
+
+    chatConversationList.innerHTML = conversations.map(conv => `
+        <div class="conversation-item" data-conv-id="${conv.id}">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span>${conv.lastMessage.substring(0, 50)}</span>
+                ${conv.unreadCount > 0 ? `<span class="unread-badge">${conv.unreadCount}</span>` : ''}
+            </div>
+            <div style="font-size:12px;color:#666;margin-top:4px;">${new Date(conv.lastMessageTime).toLocaleString()}</div>
+        </div>
+    `).join('');
+
+    document.querySelectorAll('#chatConversationList .conversation-item').forEach(el => {
+        el.addEventListener('click', () => {
+            chatCurrentConversation = el.dataset.convId;
+            loadChatMessages(chatCurrentConversation);
+        });
+    });
+}
+
+async function loadChatMessages(conversationId) {
+    chatMessagesArea.classList.remove('hidden');
+
+    const { data, error } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('conversation_id', conversationId)
+        .order('created_at', { ascending: true });
+
+    if (!error) {
+        renderChatMessages(data);
+
+        // Mark unread as read
+        const unreadMessages = data.filter(m => m.sender_id !== chatCurrentUser.id && !m.read_at);
+        for (const msg of unreadMessages) {
+            await supabase.from('messages').update({ read_at: new Date().toISOString() }).eq('id', msg.id);
+        }
+    }
+
+    // Subscribe to new messages
+    if (chatMessagesSubscription) {
+        await chatMessagesSubscription.unsubscribe();
+    }
+
+    chatMessagesSubscription = supabase
+        .channel(`chat_messages:${conversationId}`)
+        .on('postgres_changes', {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'messages',
+            filter: `conversation_id=eq.${conversationId}`
+        }, (payload) => {
+            if (payload.new.sender_id !== chatCurrentUser.id) {
+                const messageEl = createChatMessageElement(payload.new);
+                chatMessagesContainer.appendChild(messageEl);
+                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+                supabase.from('messages').update({ read_at: new Date().toISOString() }).eq('id', payload.new.id);
+            }
+        })
+        .subscribe();
+}
+
+function renderChatMessages(messages) {
+    chatMessagesContainer.innerHTML = '';
+    messages.forEach(msg => {
+        chatMessagesContainer.appendChild(createChatMessageElement(msg));
+    });
+    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+}
+
+function createChatMessageElement(message) {
+    const div = document.createElement('div');
+    div.className = `message ${message.sender_id === chatCurrentUser.id ? 'message-sent' : 'message-received'}`;
+    div.textContent = message.content;
+    return div;
+}
+
+chatSendBtn.addEventListener('click', async () => {
+    if (!chatCurrentConversation || !chatMessageInput.value.trim()) return;
+
+    const content = chatMessageInput.value.trim();
+    await supabase.from('messages').insert({
+        conversation_id: chatCurrentConversation,
+        sender_id: chatCurrentUser.id,
+        content: content
+    });
+    chatMessageInput.value = '';
+});
+
+chatMessageInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') chatSendBtn.click();
+});
+
+chatSwitchAccountBtn.addEventListener('click', () => {
+    localStorage.removeItem('chat_user_email');
+    chatCurrentUser = null;
+    chatCurrentConversation = null;
+    if (chatMessagesSubscription) chatMessagesSubscription.unsubscribe();
+    chatEmailScreen.classList.remove('hidden');
+    chatInterface.classList.add('hidden');
+    chatEmailInput.value = '';
+    chatSearchResults.innerHTML = '';
+    chatConversationList.innerHTML = '';
+    chatMessagesArea.classList.add('hidden');
+});
