@@ -764,7 +764,7 @@ function initChat() {
                 <span>${conv.lastMessage.substring(0, 50)}</span>
                 ${conv.unreadCount > 0 ? `<span class="unread-badge">${conv.unreadCount}</span>` : ''}
             </div>
-            <div style="font-size:12px;color:#666;margin-top:4px;">${new Date(conv.lastMessageTime).toLocaleString()}</div>
+            <div style="font-size:12px;color:#666;margin-top:4px;">${conv.lastMessageTime ? new Date(conv.lastMessageTime).toLocaleString() : 'No messages yet'}</div>
         </div>
     `).join('');
 
