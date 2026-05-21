@@ -623,7 +623,7 @@ function initChat() {
                     p256dh: btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('p256dh')))),
                     auth: btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('auth')))),
                     updated_at: new Date().toISOString()
-                });
+                }, { onConflict: 'user_id' });
 
                 console.log('Push subscription saved');
             } catch (error) {
