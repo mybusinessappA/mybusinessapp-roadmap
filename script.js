@@ -513,6 +513,12 @@ const closeChatBtn = document.getElementById('closeChatBtn');
 chatIcon.addEventListener('click', () => {
     if (chatModal.classList.contains('hidden')) {
         chatModal.classList.remove('hidden');
+        // Show Screen 1 (Email entry) when modal opens
+        chatEmailScreen.style.display = 'flex';
+        chatScreen2.style.display = 'none';
+        chatScreen3.style.display = 'none';
+        chatScreen4.style.display = 'none';
+        chatInterface.style.display = 'none';
     } else {
         chatModal.classList.add('hidden');
     }
@@ -543,10 +549,6 @@ if (typeof supabase === 'undefined') {
 }
 
 function initChat() {
-    let chatCurrentUser = null;
-    let chatCurrentConversation = null;
-    let chatMessagesSubscription = null;
-
     // DOM elements
     const chatEmailScreen = document.getElementById('chatEmailScreen');
     const chatInterface = document.getElementById('chatInterface');
@@ -555,13 +557,48 @@ function initChat() {
     const chatEmailError = document.getElementById('chatEmailError');
     const chatCurrentUserEmailSpan = document.getElementById('chatCurrentUserEmail');
     const chatSwitchAccountBtn = document.getElementById('chatSwitchAccountBtn');
-    const chatSearchInput = document.getElementById('chatSearchInput');
-    const chatSearchResults = document.getElementById('chatSearchResults');
     const chatConversationList = document.getElementById('chatConversationList');
     const chatMessagesArea = document.getElementById('chatMessagesArea');
-    const chatMessagesContainer = document.getElementById('chatMessagesContainer');
     const chatMessageInput = document.getElementById('chatMessageInput');
     const chatSendBtn = document.getElementById('chatSendBtn');
+
+    // Screen elements (ADD THESE)
+    const chatScreen2 = document.getElementById('chatScreen2');
+    const chatScreen3 = document.getElementById('chatScreen3');
+    const chatScreen4 = document.getElementById('chatScreen4');
+
+    // Set initial screen states
+    const savedUserEmail = localStorage.getItem('chat_user_email');
+    if (savedUserEmail) {
+        // User has existing session
+        chatEmailScreen.style.display = 'none';
+        chatInterface.style.display = 'block';
+        document.getElementById('chatScreen2').style.display = 'block';
+        document.getElementById('chatScreen3').style.display = 'none';
+        document.getElementById('chatScreen4').style.display = 'none';
+        if (chatCurrentUserEmailSpan) chatCurrentUserEmailSpan.textContent = savedUserEmail;
+    } else {
+        // No session, show email screen
+        chatEmailScreen.style.display = 'flex';
+        chatScreen2.style.display = 'none';
+        chatScreen3.style.display = 'none';
+        chatScreen4.style.display = 'none';
+        chatInterface.style.display = 'none';
+    }
+
+    let chatCurrentUser = null;
+    let chatCurrentConversation = null;
+    let chatMessagesSubscription = null;
+    let verifiedRecipientId = null;
+    let verifiedRecipientEmail = null;
+
+    // Screen 2 elements
+    const chatRecipientEmail = document.getElementById('chatRecipientEmail');
+    const chatVerifyRecipientBtn = document.getElementById('chatVerifyRecipientBtn');
+    const chatRecipientError = document.getElementById('chatRecipientError');
+    const chatStartChatBtn = document.getElementById('chatStartChatBtn');
+    const chatBackToListBtn = document.getElementById('chatBackToListBtn');
+    const chatActiveConversationInfo = document.getElementById('chatActiveConversationInfo');
 
     // Check saved user
     const savedChatEmail = localStorage.getItem('chat_user_email');
@@ -569,15 +606,6 @@ function initChat() {
         chatEmailInput.value = savedChatEmail;
         verifyChatEmail(savedChatEmail);
     }
-
-    chatVerifyBtn.addEventListener('click', () => {
-        const email = chatEmailInput.value.trim().toLowerCase();
-        if (!email) {
-            chatEmailError.textContent = 'Please enter an email address';
-            return;
-        }
-        verifyChatEmail(email);
-    });
 
     async function verifyChatEmail(email) {
         chatEmailError.textContent = '';
@@ -598,135 +626,293 @@ function initChat() {
         }
 
         chatCurrentUser = { id: data.id, email: data.email };
-        // Request push notification permission
-        if ('Notification' in window) {
-            Notification.requestPermission();
-        }
-
-        // Register service worker and subscribe to push
-        if ('serviceWorker' in navigator && 'PushManager' in window) {
-            try {
-                const registration = await navigator.serviceWorker.register('/sw.js');
-                console.log('Service Worker registered');
-
-                const vapidPublicKey = 'BASVduVa-1sqezTxaF7BlpGjSvPsduCLcbs2Qhn175wsACxRsQnDvgtazC2QpGEPDmQkY1-nOHpcmkqqnm2dKgU';
-
-                const subscription = await registration.pushManager.subscribe({
-                    userVisibleOnly: true,
-                    applicationServerKey: vapidPublicKey
-                });
-
-                // Save subscription to Supabase
-                await supabase.from('push_subscriptions').upsert({
-                    user_id: chatCurrentUser.id,
-                    endpoint: subscription.endpoint,
-                    p256dh: btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('p256dh')))),
-                    auth: btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('auth')))),
-                    updated_at: new Date().toISOString()
-                }, { onConflict: 'user_id' });
-
-                console.log('Push subscription saved');
-            } catch (error) {
-                console.error('Push setup failed:', error);
-            }
-        }
-
         localStorage.setItem('chat_user_email', chatCurrentUser.email);
 
         chatEmailScreen.classList.add('hidden');
         chatInterface.classList.remove('hidden');
         chatCurrentUserEmailSpan.textContent = chatCurrentUser.email;
 
-        loadChatConversations();
-        setupChatSearch();
+        // Show Screen 2
+        document.getElementById('chatScreen2').style.display = 'block';
+        chatScreen3.style.display = 'none';
+        chatScreen4.style.display = 'none';
     }
 
-    function setupChatSearch() {
-        let debounceTimer;
-        chatSearchInput.addEventListener('input', (e) => {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => {
-                const query = e.target.value.trim().toLowerCase();
-                if (query.length < 2) {
-                    chatSearchResults.innerHTML = '';
-                    return;
-                }
-                searchChatUsers(query);
-            }, 300);
-        });
-    }
-
-    async function searchChatUsers(query) {
-        const { data, error } = await supabase
-            .from('profiles')
-            .select('id, email')
-            .ilike('email', `%${query}%`)
-            .neq('id', chatCurrentUser.id)
-            .limit(10);
-
-        if (error || data.length === 0) {
-            chatSearchResults.innerHTML = '<div class="user-item">No users found</div>';
+    chatVerifyBtn.addEventListener('click', async () => {
+        const email = chatEmailInput.value.trim().toLowerCase();
+        if (!email) {
+            chatEmailError.textContent = 'Please enter an email address';
             return;
         }
 
-        chatSearchResults.innerHTML = data.map(user => `
-        <div class="user-item" data-user-id="${user.id}" data-user-email="${user.email}">
-            <div class="user-email">${user.email}</div>
-            <div style="font-size:12px;color:#666;">Click to start conversation</div>
-        </div>
-    `).join('');
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('id, email')
+            .eq('email', email)
+            .single();
 
-        document.querySelectorAll('#chatSearchResults .user-item').forEach(el => {
-            el.addEventListener('click', () => {
-                startChatConversation(el.dataset.userId, el.dataset.userEmail);
+        if (error || !data) {
+            chatEmailError.innerHTML = 'User not registered, kindly <a href="#" id="chatDownloadLink">download the app and register</a>';
+            document.getElementById('chatDownloadLink')?.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Redirect to app download page');
             });
-        });
+            return;
+        }
+
+        chatCurrentUser = { id: data.id, email: data.email };
+        localStorage.setItem('chat_user_email', chatCurrentUser.email);
+
+        document.getElementById('chatEmailScreen').style.display = 'none';
+        document.getElementById('chatInterface').style.display = 'block';
+        document.getElementById('chatScreen2').style.display = 'block';
+        document.getElementById('chatScreen3').style.display = 'none';
+        document.getElementById('chatScreen4').style.display = 'none';
+        chatCurrentUserEmailSpan.textContent = chatCurrentUser.email;
+    });
+
+    async function verifyRecipient() {
+        const email = chatRecipientEmail.value.trim().toLowerCase();
+        if (!email) {
+            chatRecipientError.textContent = 'Please enter an email address';
+            return;
+        }
+
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('id, email')
+            .eq('email', email)
+            .single();
+
+        if (error || !data) {
+            chatRecipientError.innerHTML = 'User not registered';
+            chatStartChatBtn.style.display = 'none';
+            return;
+        }
+
+        verifiedRecipientId = data.id;
+        verifiedRecipientEmail = data.email;
+        chatRecipientError.textContent = '✓ User found';
+        chatRecipientError.style.color = 'green';
+        chatStartChatBtn.style.display = 'block';
     }
 
-    async function startChatConversation(otherUserId, otherUserEmail) {
-        // Check existing conversation
+    async function startNewChat() {
+        if (!verifiedRecipientId) return;
+
+        // Check if conversation already exists
         const { data: existingConv } = await supabase
             .from('participants')
             .select('conversation_id')
             .eq('user_id', chatCurrentUser.id);
+
+        let conversationId = null;
 
         if (existingConv && existingConv.length > 0) {
             const convIds = existingConv.map(p => p.conversation_id);
             const { data: matching } = await supabase
                 .from('participants')
                 .select('conversation_id')
-                .eq('user_id', otherUserId)
+                .eq('user_id', verifiedRecipientId)
                 .in('conversation_id', convIds);
 
             if (matching && matching.length > 0) {
-                chatCurrentConversation = matching[0].conversation_id;
-                loadChatMessages(chatCurrentConversation);
-                chatSearchResults.innerHTML = '';
-                chatSearchInput.value = '';
-                return;
+                conversationId = matching[0].conversation_id;
             }
         }
 
-        // Create new conversation
-        const { data: newConv, error } = await supabase
-            .from('conversations')
-            .insert({})
-            .select()
-            .single();
+        if (!conversationId) {
+            const { data: newConv } = await supabase
+                .from('conversations')
+                .insert({})
+                .select()
+                .single();
 
-        if (error) return;
+            await supabase.from('participants').insert([
+                { conversation_id: newConv.id, user_id: chatCurrentUser.id },
+                { conversation_id: newConv.id, user_id: verifiedRecipientId }
+            ]);
 
-        await supabase.from('participants').insert([
-            { conversation_id: newConv.id, user_id: chatCurrentUser.id },
-            { conversation_id: newConv.id, user_id: otherUserId }
-        ]);
+            conversationId = newConv.id;
+        }
 
-        chatCurrentConversation = newConv.id;
-        loadChatMessages(chatCurrentConversation);
-        loadChatConversations();
-        chatSearchResults.innerHTML = '';
-        chatSearchInput.value = '';
+        // Clear Screen 2 and go to Screen 3
+        chatRecipientEmail.value = '';
+        chatRecipientError.textContent = '';
+        chatStartChatBtn.style.display = 'none';
+        verifiedRecipientId = null;
+
+        await loadConversationList();
+        chatScreen2.style.display = 'none';
+        chatScreen3.style.display = 'block';
+        chatScreen4.style.display = 'none';
     }
+
+    async function loadConversationList() {
+        const { data, error } = await supabase
+            .from('participants')
+            .select(`
+            conversation_id,
+            conversations (
+                id,
+                messages (id, content, created_at, sender_id)
+            )
+        `)
+            .eq('user_id', chatCurrentUser.id);
+
+        if (error || !data || data.length === 0) {
+            chatConversationList.innerHTML = '<div style="padding:20px;text-align:center;color:#666;">No conversations yet. Add a user to start chatting.</div>';
+            return;
+        }
+
+        // Get other participant's email for each conversation
+        const conversations = [];
+        for (const p of data) {
+            const conv = p.conversations;
+            const messages = conv?.messages || [];
+            const lastMessage = messages.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))[0];
+
+            // Get other user's email
+            const { data: otherParticipant } = await supabase
+                .from('participants')
+                .select('user_id, profiles!user_id(email)')
+                .eq('conversation_id', conv.id)
+                .neq('user_id', chatCurrentUser.id)
+                .single();
+
+            const otherUserEmail = otherParticipant?.profiles?.email || 'Unknown user';
+
+            conversations.push({
+                id: conv.id,
+                otherUserEmail: otherUserEmail,
+                lastMessage: lastMessage?.content || 'No messages yet',
+                lastMessageTime: lastMessage?.created_at
+            });
+        }
+
+        chatConversationList.innerHTML = conversations.map(conv => `
+        <div class="conversation-item" data-conv-id="${conv.id}" data-other-user="${conv.otherUserEmail}">
+            <div><strong>${conv.otherUserEmail}</strong></div>
+            <div style="font-size:12px;color:#666;">${conv.lastMessage.substring(0, 50)}</div>
+            <div style="font-size:10px;color:#999;">${conv.lastMessageTime ? new Date(conv.lastMessageTime).toLocaleString() : ''}</div>
+        </div>
+    `).join('');
+
+        // Add click handlers
+        document.querySelectorAll('#chatConversationList .conversation-item').forEach(el => {
+            el.addEventListener('click', () => {
+                openConversation(el.dataset.convId, el.dataset.otherUser);
+            });
+        });
+    }
+
+    async function openConversation(conversationId, otherUserEmail) {
+        chatCurrentConversation = conversationId;
+        chatActiveConversationInfo.textContent = `Chat with ${otherUserEmail}`;
+
+        // Load messages
+        const { data: messages } = await supabase
+            .from('messages')
+            .select('*')
+            .eq('conversation_id', conversationId)
+            .order('created_at', { ascending: true });
+
+        renderChatMessages(messages || []);
+
+        // Subscribe to new messages
+        if (chatMessagesSubscription) {
+            await chatMessagesSubscription.unsubscribe();
+        }
+
+        chatMessagesSubscription = supabase
+            .channel(`chat_messages:${conversationId}`)
+            .on('postgres_changes', {
+                event: 'INSERT',
+                schema: 'public',
+                table: 'messages',
+                filter: `conversation_id=eq.${conversationId}`
+            }, (payload) => {
+                if (payload.new.sender_id !== chatCurrentUser.id) {
+                    const messageEl = createChatMessageElement(payload.new);
+                    chatMessagesArea.appendChild(messageEl);
+                    chatMessagesArea.scrollTop = chatMessagesArea.scrollHeight;
+                }
+            })
+            .subscribe();
+
+        // Switch to Screen 4
+        chatScreen2.style.display = 'none';
+        chatScreen3.style.display = 'none';
+        chatScreen4.style.display = 'block';
+    }
+
+    function renderChatMessages(messages) {
+        chatMessagesArea.innerHTML = '';
+        messages.forEach(msg => {
+            chatMessagesArea.appendChild(createChatMessageElement(msg));
+        });
+        chatMessagesArea.scrollTop = chatMessagesArea.scrollHeight;
+    }
+
+    function createChatMessageElement(message) {
+        const div = document.createElement('div');
+        div.className = `message ${message.sender_id === chatCurrentUser.id ? 'message-sent' : 'message-received'}`;
+        div.textContent = message.content;
+        return div;
+    }
+
+    chatVerifyRecipientBtn.addEventListener('click', verifyRecipient);
+    chatStartChatBtn.addEventListener('click', startNewChat);
+
+    chatStartChatBtn.addEventListener('click', async () => {
+        if (!verifiedRecipientId) return;
+
+        // Create or get conversation
+        const { data: existingConv } = await supabase
+            .from('participants')
+            .select('conversation_id')
+            .eq('user_id', chatCurrentUser.id);
+
+        let conversationId = null;
+
+        if (existingConv && existingConv.length > 0) {
+            const convIds = existingConv.map(p => p.conversation_id);
+            const { data: matching } = await supabase
+                .from('participants')
+                .select('conversation_id')
+                .eq('user_id', verifiedRecipientId)
+                .in('conversation_id', convIds);
+
+            if (matching && matching.length > 0) {
+                conversationId = matching[0].conversation_id;
+            }
+        }
+
+        if (!conversationId) {
+            const { data: newConv } = await supabase
+                .from('conversations')
+                .insert({})
+                .select()
+                .single();
+
+            await supabase.from('participants').insert([
+                { conversation_id: newConv.id, user_id: chatCurrentUser.id },
+                { conversation_id: newConv.id, user_id: verifiedRecipientId }
+            ]);
+
+            conversationId = newConv.id;
+        }
+
+        chatCurrentConversation = conversationId;
+
+        // Switch to Screen 3
+        chatScreen2.style.display = 'none';
+        chatScreen3.style.display = 'block';
+
+        // Load messages and conversation list
+        loadChatConversations();
+        loadChatMessages(conversationId);
+    });
 
     async function loadChatConversations() {
         const { data, error } = await supabase
@@ -810,27 +996,12 @@ function initChat() {
             }, (payload) => {
                 if (payload.new.sender_id !== chatCurrentUser.id) {
                     const messageEl = createChatMessageElement(payload.new);
-                    chatMessagesContainer.appendChild(messageEl);
-                    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+                    chatMessagesArea.appendChild(messageEl);
+                    chatMessagesArea.scrollTop = chatMessagesArea.scrollHeight;
                     supabase.from('messages').update({ read_at: new Date().toISOString() }).eq('id', payload.new.id);
                 }
             })
             .subscribe();
-    }
-
-    function renderChatMessages(messages) {
-        chatMessagesContainer.innerHTML = '';
-        messages.forEach(msg => {
-            chatMessagesContainer.appendChild(createChatMessageElement(msg));
-        });
-        chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
-    }
-
-    function createChatMessageElement(message) {
-        const div = document.createElement('div');
-        div.className = `message ${message.sender_id === chatCurrentUser.id ? 'message-sent' : 'message-received'}`;
-        div.textContent = message.content;
-        return div;
     }
 
     chatSendBtn.addEventListener('click', async () => {
@@ -849,6 +1020,16 @@ function initChat() {
         if (e.key === 'Enter') chatSendBtn.click();
     });
 
+    chatBackToListBtn.addEventListener('click', async () => {
+        await loadConversationList();
+        chatScreen2.style.display = 'none';
+        chatScreen3.style.display = 'block';
+        chatScreen4.style.display = 'none';
+        if (chatMessagesSubscription) {
+            await chatMessagesSubscription.unsubscribe();
+        }
+    });
+
     chatSwitchAccountBtn.addEventListener('click', () => {
         localStorage.removeItem('chat_user_email');
         chatCurrentUser = null;
@@ -857,7 +1038,6 @@ function initChat() {
         chatEmailScreen.classList.remove('hidden');
         chatInterface.classList.add('hidden');
         chatEmailInput.value = '';
-        chatSearchResults.innerHTML = '';
         chatConversationList.innerHTML = '';
         chatMessagesArea.classList.add('hidden');
     });
