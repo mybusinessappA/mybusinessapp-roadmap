@@ -279,18 +279,36 @@
 
                 <!-- Chat interface (hidden until verified) -->
                 <div id="chatInterface" class="hidden">
+                    <!-- User info bar (visible on all screens) -->
                     <div class="chat-current-user">
                         <span id="chatCurrentUserEmail"></span>
                         <button id="chatSwitchAccountBtn" class="btn-small">Switch</button>
                     </div>
-                    <div class="chat-search-area">
-                        <input type="text" id="chatSearchInput" placeholder="Search user by email..."
+
+                    <!-- Screen 2: Add recipient -->
+                    <div id="chatScreen2">
+                        <p>Enter email of person you want to chat with:</p>
+                        <input type="email" id="chatRecipientEmail" placeholder="recipient@example.com"
                             class="chat-input">
-                        <div id="chatSearchResults" class="chat-search-results"></div>
+                        <button id="chatVerifyRecipientBtn" class="btn-primary">Verify User</button>
+                        <div id="chatRecipientError" class="form-status"></div>
+                        <button id="chatStartChatBtn" class="btn-primary" style="margin-top: 12px; display: none;">Start
+                            Chat</button>
                     </div>
-                    <div id="chatConversationList" class="chat-conversation-list"></div>
-                    <div id="chatMessagesArea" class="hidden">
-                        <div id="chatMessagesContainer" class="chat-messages-container"></div>
+
+                    <!-- Screen 3: Conversation list -->
+                    <div id="chatScreen3" style="display: none;">
+                        <h3 style="margin-bottom: 10px;">Your Conversations</h3>
+                        <div id="chatConversationList" class="chat-conversation-list"></div>
+                    </div>
+
+                    <!-- Screen 4: Chat box -->
+                    <div id="chatScreen4" style="display: none;">
+                        <button id="chatBackToListBtn" class="btn-small" style="margin-bottom: 10px;">← Back to
+                            Conversations</button>
+                        <div id="chatActiveConversationInfo" style="font-size: 12px; color: #666; margin-bottom: 10px;">
+                        </div>
+                        <div id="chatMessagesArea" class="chat-messages-container"></div>
                         <div class="chat-message-input-area">
                             <input type="text" id="chatMessageInput" placeholder="Type a message..." class="chat-input">
                             <button id="chatSendBtn" class="btn-primary">Send</button>
