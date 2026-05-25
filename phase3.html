@@ -298,7 +298,11 @@
 
                     <!-- Screen 3: Conversation list -->
                     <div id="chatScreen3" style="display: none;">
-                        <h3 style="margin-bottom: 10px;">Your Conversations</h3>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <h3 style="margin: 0;">Your Conversations</h3>
+                            <button id="chatNewChatBtn" class="btn-small">+ New Chat</button>
+                        </div>
                         <div id="chatConversationList" class="chat-conversation-list"></div>
                     </div>
 
