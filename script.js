@@ -663,12 +663,46 @@ function initChat() {
         chatCurrentUser = { id: data.id, email: data.email };
         localStorage.setItem('chat_user_email', chatCurrentUser.email);
 
-        document.getElementById('chatEmailScreen').style.display = 'none';
-        document.getElementById('chatInterface').style.display = 'block';
-        document.getElementById('chatScreen2').style.display = 'block';
-        document.getElementById('chatScreen3').style.display = 'none';
-        document.getElementById('chatScreen4').style.display = 'none';
-        chatCurrentUserEmailSpan.textContent = chatCurrentUser.email;
+        // Check if user has existing conversations
+        // Check if user has ANY messages in their conversations
+        const { data: existingConvs } = await supabase
+            .from('participants')
+            .select('conversation_id')
+            .eq('user_id', chatCurrentUser.id);
+
+        const conversationIds = existingConvs?.map(p => p.conversation_id) || [];
+        let hasRealMessages = false;
+
+        if (conversationIds.length > 0) {
+            const { count } = await supabase
+                .from('messages')
+                .select('*', { count: 'exact', head: true })
+                .in('conversation_id', conversationIds);
+            hasRealMessages = count > 0;
+        }
+
+        const hasConversations = hasRealMessages;
+
+        if (hasConversations) {
+            // Returning user - go to Screen 3
+            document.getElementById('chatEmailScreen').style.display = 'none';
+            document.getElementById('chatInterface').style.display = 'block';
+            document.getElementById('chatScreen2').style.display = 'none';
+            document.getElementById('chatScreen3').style.display = 'block';
+            document.getElementById('chatScreen4').style.display = 'none';
+            document.querySelector('.chat-current-user').style.display = 'flex';
+            chatCurrentUserEmailSpan.textContent = chatCurrentUser.email;
+            await loadConversationList();
+        } else {
+            // First time user - go to Screen 2
+            document.getElementById('chatEmailScreen').style.display = 'none';
+            document.getElementById('chatInterface').style.display = 'block';
+            document.getElementById('chatScreen2').style.display = 'block';
+            document.getElementById('chatScreen3').style.display = 'none';
+            document.getElementById('chatScreen4').style.display = 'none';
+            document.querySelector('.chat-current-user').style.display = 'none';
+            chatCurrentUserEmailSpan.textContent = chatCurrentUser.email;
+        }
     });
 
     async function verifyRecipient() {
@@ -744,8 +778,12 @@ function initChat() {
 
         await loadConversationList();
         chatScreen2.style.display = 'none';
-        chatScreen3.style.display = 'block';
-        chatScreen4.style.display = 'none';
+        chatScreen3.style.display = 'none';
+        chatScreen4.style.display = 'block';
+        document.querySelector('.chat-current-user').style.display = 'flex';
+
+        // Open the conversation
+        await openConversation(conversationId, verifiedRecipientEmail);
     }
 
     async function loadConversationList() {
@@ -867,51 +905,27 @@ function initChat() {
     chatStartChatBtn.addEventListener('click', async () => {
         if (!verifiedRecipientId) return;
 
-        // Create or get conversation
-        const { data: existingConv } = await supabase
-            .from('participants')
-            .select('conversation_id')
-            .eq('user_id', chatCurrentUser.id);
+        // Store the selected recipient for when first message is sent
+        window.pendingRecipientId = verifiedRecipientId;
+        window.pendingRecipientEmail = verifiedRecipientEmail;
 
-        let conversationId = null;
+        // Clear any existing conversation ID
+        chatCurrentConversation = null;
 
-        if (existingConv && existingConv.length > 0) {
-            const convIds = existingConv.map(p => p.conversation_id);
-            const { data: matching } = await supabase
-                .from('participants')
-                .select('conversation_id')
-                .eq('user_id', verifiedRecipientId)
-                .in('conversation_id', convIds);
+        // Clear messages area
+        chatMessagesArea.innerHTML = '';
+        chatMessagesArea.classList.remove('hidden');
 
-            if (matching && matching.length > 0) {
-                conversationId = matching[0].conversation_id;
-            }
-        }
+        // Set the header to show who we're chatting with
+        chatActiveConversationInfo.textContent = `Chat with ${verifiedRecipientEmail}`;
 
-        if (!conversationId) {
-            const { data: newConv } = await supabase
-                .from('conversations')
-                .insert({})
-                .select()
-                .single();
-
-            await supabase.from('participants').insert([
-                { conversation_id: newConv.id, user_id: chatCurrentUser.id },
-                { conversation_id: newConv.id, user_id: verifiedRecipientId }
-            ]);
-
-            conversationId = newConv.id;
-        }
-
-        chatCurrentConversation = conversationId;
-
-        // Switch to Screen 3
+        // Switch directly to Screen 4 (chat messages)
         chatScreen2.style.display = 'none';
-        chatScreen3.style.display = 'block';
+        chatScreen4.style.display = 'block';
+        document.querySelector('.chat-current-user').style.display = 'flex';
 
-        // Load messages and conversation list
-        loadChatConversations();
-        loadChatMessages(conversationId);
+        // Clear input
+        chatMessageInput.value = '';
     });
 
     async function loadChatConversations() {
@@ -1005,14 +1019,58 @@ function initChat() {
     }
 
     chatSendBtn.addEventListener('click', async () => {
-        if (!chatCurrentConversation || !chatMessageInput.value.trim()) return;
-
         const content = chatMessageInput.value.trim();
-        await supabase.from('messages').insert({
+        if (!content) return;
+
+        // If no conversation exists yet, create it
+        if (!chatCurrentConversation && window.pendingRecipientId) {
+            // Create new conversation
+            const { data: newConv } = await supabase
+                .from('conversations')
+                .insert({})
+                .select()
+                .single();
+
+            // Add participants
+            await supabase.from('participants').insert([
+                { conversation_id: newConv.id, user_id: chatCurrentUser.id },
+                { conversation_id: newConv.id, user_id: window.pendingRecipientId }
+            ]);
+
+            chatCurrentConversation = newConv.id;
+
+            // Send email notification for first message
+            await fetch('https://gebqornquqcreangumol.supabase.co/functions/v1/send-notification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdlYnFvcm5xdXFjcmVhbmd1bW9sIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2OTA2ODU1MCwiZXhwIjoyMDg0NjQ0NTUwfQ.7GFtO_KVxvyeZqPz6oOxUUXZVPCOzK7RvtzQYZyscx0'
+                },
+                body: JSON.stringify({
+                    to_email: window.pendingRecipientEmail,
+                    sender_email: chatCurrentUser.email,
+                    message_preview: content
+                })
+            });
+
+            delete window.pendingRecipientId;
+            delete window.pendingRecipientEmail;
+        }
+
+        // Insert message
+        const { data: newMessage } = await supabase.from('messages').insert({
             conversation_id: chatCurrentConversation,
             sender_id: chatCurrentUser.id,
             content: content
-        });
+        }).select().single();
+
+        // Add to UI
+        if (newMessage) {
+            const messageEl = createChatMessageElement(newMessage);
+            chatMessagesArea.appendChild(messageEl);
+            chatMessagesArea.scrollTop = chatMessagesArea.scrollHeight;
+        }
+
         chatMessageInput.value = '';
     });
 
@@ -1024,21 +1082,58 @@ function initChat() {
         await loadConversationList();
         chatScreen2.style.display = 'none';
         chatScreen3.style.display = 'block';
+        document.querySelector('.chat-current-user').style.display = 'flex';
         chatScreen4.style.display = 'none';
         if (chatMessagesSubscription) {
             await chatMessagesSubscription.unsubscribe();
         }
     });
 
-    chatSwitchAccountBtn.addEventListener('click', () => {
+    const chatNewChatBtn = document.getElementById('chatNewChatBtn');
+    if (chatNewChatBtn) {
+        chatNewChatBtn.addEventListener('click', () => {
+            // Clear any existing recipient data
+            verifiedRecipientId = null;
+            verifiedRecipientEmail = null;
+            chatRecipientEmail.value = '';
+            chatRecipientError.textContent = '';
+            chatStartChatBtn.style.display = 'none';
+
+            // Show Screen 2
+            chatScreen2.style.display = 'block';
+            chatScreen3.style.display = 'none';
+            chatScreen4.style.display = 'none';
+
+            // Hide user info bar on Screen 2
+            document.querySelector('.chat-current-user').style.display = 'none';
+        });
+    }
+
+    chatSwitchAccountBtn.onclick = () => {
         localStorage.removeItem('chat_user_email');
-        chatCurrentUser = null;
-        chatCurrentConversation = null;
-        if (chatMessagesSubscription) chatMessagesSubscription.unsubscribe();
+        window.chatCurrentUser = null;
+        window.chatCurrentConversation = null;
+        if (window.chatMessagesSubscription) window.chatMessagesSubscription.unsubscribe();
+
+        document.getElementById('chatScreen2').style.display = 'none';
+        document.getElementById('chatScreen3').style.display = 'none';
+        document.getElementById('chatScreen4').style.display = 'none';
+
+        chatEmailScreen.style.display = 'flex';
         chatEmailScreen.classList.remove('hidden');
         chatInterface.classList.add('hidden');
+        chatInterface.style.display = 'none';
+
         chatEmailInput.value = '';
-        chatConversationList.innerHTML = '';
-        chatMessagesArea.classList.add('hidden');
-    });
+        if (chatRecipientEmail) chatRecipientEmail.value = '';
+        if (chatConversationList) chatConversationList.innerHTML = '';
+        if (chatMessagesArea) {
+            chatMessagesArea.innerHTML = '';
+            chatMessagesArea.classList.add('hidden');
+        }
+        if (chatRecipientError) chatRecipientError.textContent = '';
+
+        verifiedRecipientId = null;
+        verifiedRecipientEmail = null;
+    };
 }
